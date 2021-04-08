@@ -1,0 +1,42 @@
+extends layout
+block content
+    h1 The list with all the bookings
+    ul
+        table(style='width:100%')
+            tr
+                th Booking No
+                th Username
+                th Resource Name
+                th Cost
+                th Start
+                th End
+                th Booking Time
+            tr
+            - var i=0;
+                each booking in book_list
+                    -i++;
+                    tr
+                        td
+                            a(href='/catalog' + booking.url + '/get') #{i}
+                        td #{booking.userID.Uname}
+                           .container
+                            #accordion.panel-group
+                              .panel.panel-default
+                                .panel-heading
+                                  .panel-title
+                                    a.accordion-toggle(data-toggle='collapse', href='#collapseOne')
+                                      | See details
+                                #collapseOne.panel-collapse.collapse.in
+                                  .panel-body
+                                   | #[strong Phone :] #{booking.userID.phone}
+                                   li
+                                   | #[strong Project Title :] #{booking.Project_title}
+
+                        td #{booking.resourceID.name}
+                        td #{booking.total_cost.toFixed(2)}
+                        td #{booking.startdate}
+                        td #{booking.finishdate}
+                        td #{booking.registertime}
+
+                else
+                    li There are no Bookings.

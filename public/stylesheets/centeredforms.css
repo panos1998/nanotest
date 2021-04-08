@@ -1,0 +1,34 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+li{
+    list-style-type: none;
+}
+table {
+    background-color: white;
+    width: 60%;
+}
+
+
+tr:nth-child(even) {
+    background-color: #d7d7d7;
+}
+
+
+tr:hover{
+    color: #6bbaef;
+}
+
+form{
+    text-align:center ;
+}
+button{
+    align-self: center;
+}
+img{
+    width: 250px;
+    height: 250px;
+}

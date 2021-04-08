@@ -1,0 +1,22 @@
+extends layout
+block content
+    h1= title
+    ul
+        table(style='width:100%')
+            tr
+                th ID
+                th Name
+                th Email
+                th Phone
+                th Role
+            tr
+                each useritem in UserItem
+                    tr
+                        td #{useritem._id}
+                        td #{useritem.Uname}
+                        td #{useritem.email}
+                        td #{useritem.phone}
+                        td #{useritem.role}
+
+                else
+                    li There are no Users.

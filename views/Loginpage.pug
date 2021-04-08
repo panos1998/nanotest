@@ -1,0 +1,14 @@
+extends Welcomepage
+block content
+    h3= title
+    h4= errors
+    h4= msg
+    form(method='POST' action='')
+        .form-row
+            .form-group.col-md-6
+                label(for= 'email') #[strong Email]:
+                    input#email.form-control(type='email', placeholder='Your email' name='email' required='true')
+            .form-group.col-md-6
+                label(for= 'password') #[strong Password]:
+                    input#password.form-control(type='password', placeholder='Your password' name='password' required='true')
+        button.btn.btn-primary(type='submit') #{title}

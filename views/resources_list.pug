@@ -1,0 +1,20 @@
+extends layout
+block content
+    h1= title
+    ul
+        - resources_list.sort(function(a, b) {let textA = a.name.toUpperCase(); let textB = b.name.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
+        table
+            tr
+                th Name
+                th Cost
+                th Status
+            tr
+              each resource in resources_list
+                tr
+                 td
+                    a(href='/catalog'+resource.url) #{resource.name}
+                 td #{resource.ph} Euros
+                 td #{resource.status}
+
+              else
+                li There are no resources.

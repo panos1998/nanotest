@@ -1,0 +1,29 @@
+extends layout
+block content
+    h1 Booking Details
+    br
+    each bookia in book
+        flex-container
+           div.flex-container
+            h4  Booking Resource:
+            a(href="/catalog/resources/"+bookia.resourceID._id+"/get")
+              h6=bookia.resourceID.name
+           div.flex-container
+             h4 Booking starts:
+             h6=bookia.startdate
+           div.flex-container
+            h4  Booking ends:
+            h6=bookia.finishdate
+           div.flex-container
+            h4 Registered Time:
+            h6=bookia.registertime
+        ul
+        flex-container
+           two.flex-container
+            h4  Project Title:
+            h6=bookia.Project_title
+        ul
+        flex-container
+           two.flex-container
+            h4  Project Description:
+            h6=bookia.Project_desc

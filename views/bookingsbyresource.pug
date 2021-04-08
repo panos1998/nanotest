@@ -1,0 +1,24 @@
+extends layout
+block content
+    -var i=0;
+    H4= found.name
+    each item in found
+        -i++;
+        -var value=item.total_cost.toFixed(2);
+        ul
+        flex-container(style='background-color:#c7e7fa;')
+            numbering.flex-container
+                 a(href='/catalog'+item.url+'/get') ##{i}
+            three.flex-container
+                | #[strong Name:] #{item.userID.Uname}
+            three.flex-container
+                | #[strong Date Started:] #{item.startdate}
+            three.flex-container
+                | #[strong Date Finished:] #{item.finishdate}
+            three.flex-container
+                | #[strong Date Registered:] #{item.registertime}
+            three.flex-container
+                | #[strong Total Cost:] #{value}
+    else
+        h4 No bookings at this time
+
