@@ -27,13 +27,13 @@ BookingSchema
 BookingSchema
     .virtual("finishdate")
     .get(function (){
-        return DateTime.fromJSDate(this.date_finished).toLocaleString(DateTime.DATETIME_SHORT)
+        return DateTime.fromJSDate(this.date_finished).setLocale('en-GB').toLocaleString(DateTime.DATETIME_SHORT)
     });
 
 BookingSchema
     .virtual("registertime")
     .get(function (){
-        return DateTime.fromJSDate(this.timestamp).toLocaleString(DateTime.DATETIME_SHORT)
+        return DateTime.fromJSDate(this.timestamp).setLocale('en-GB').toLocaleString(DateTime.DATETIME_SHORT)
     });
 
 module.exports = mongoose.model('Books', BookingSchema);
