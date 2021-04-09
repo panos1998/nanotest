@@ -22,7 +22,7 @@ BookingSchema
 BookingSchema
     .virtual("startdate")
     .get(function (){
-        return DateTime.fromJSDate(this.date_started).toLocaleString(DateTime.DATETIME_SHORT)
+        return DateTime.fromJSDate(this.date_started).setLocale('en-GB').toLocaleString(DateTime.DATETIME_SHORT);
     });
 BookingSchema
     .virtual("finishdate")
