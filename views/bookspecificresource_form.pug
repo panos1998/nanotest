@@ -10,10 +10,10 @@ block content
                 input#userID.form-control(type='string', placeholder='Your user id' name='userID' required='true')
             div.form-group.col-md-1
             label(for= 'date_started') #[strong Book from]:
-                input#date_started.form-control(type='datetime-local', placeholder='DD/MM/YY' name='date_started' required='true')
+                input#date_started.form-control(type='datetime-local' step='1800', placeholder='DD/MM/YY' name='date_started' required='true')
             div.form-group.col-md-1
             label(for= 'date_finished') #[strong Book until]:
-                input#date_finished.form-control(type='datetime-local', placeholder='DD/MM/YY' name='date_finished' required='true')
+                input#date_finished.form-control(type='datetime-local' step='1800', placeholder='DD/MM/YY' name='date_finished' required='true')
         div.form-row
             div.form-group.col-md-6
                 label(for='Project_Title') #[strong Project Title]:
