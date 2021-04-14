@@ -12,7 +12,7 @@ var UserSchema= new Schema(
 UserSchema
     .virtual('url')
     .get(function(){
-        return'/admin/users/'+this._id;
+        return this._id;
     });
 UserSchema
 .virtual("getRole")
