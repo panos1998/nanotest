@@ -61,9 +61,12 @@ flex-container > div {
   background-color: #a6f1a6;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 6px;
 }
 flex-container >numbering{
   text-align: left;
+  margin-bottom: 5px;
+  font-size: 18px;
 }
 
 flex-container > two{
@@ -85,18 +88,18 @@ flex-container > two{
 flex-container>three{
   border-radius: 20px;
   border-style: double;
-  border-width: 10px;
+  border-width: 3px;
   border-color: #a6f1a6;
   background-color: #a6f1a6;
   margin-left: auto;
-  margin-right:auto ;
-  margin-top: 5px;
-  margin-bottom: 5px;
+  margin-right:auto;
+  margin-bottom: 4px;
   column-width: auto;
-  font-size: 13px;
+  font-size: 15px;
 }
 flex-container>buttons{
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 10px;
 }
+

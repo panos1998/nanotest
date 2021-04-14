@@ -9,7 +9,7 @@ var compression = require('compression');
 var helmet = require('helmet');
 
 var app = express();
-
+app.locals.moment = require('moment');
 //Import the mongoose module
 var mongoose = require('mongoose');
 

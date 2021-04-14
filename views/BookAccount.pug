@@ -1,0 +1,49 @@
+extends layout
+block content
+    -var i=0;
+    -var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        #accordion.panel-group
+        each doc in object
+           flex-container(style='background-color:#c7e7fa; justify-content:space-around; position:relative;flex-direction:row;margin-left:20px;margin-right:auto; margin-top:20px; width:45%; ')
+            .three(style='text-align:center;margin-left:auto; margin-right:auto; flex: 0 0 40%;')
+              h4='' + doc._id.year + '  ' + months[doc._id.month - 1]
+              -i++;
+            #accordion.panel-group
+             .panel-heading
+               h4.panel-title
+                 a.accordion-toggle(data-toggle='collapse', href='#collapses' + i)
+                   h6 See Total Cost
+             .panel-collapse.collapse.in(id="collapses" + i)
+                .three(style='width:100%; margin-left:auto; margin-right:auto; flex: 0 0 25%;')
+                  h5= 'Total Montly Cost:  ' + doc.total_cost_month.toFixed(2)
+                                .panel-heading
+                                  h4.panel-title
+                                    a.accordion-toggle(data-toggle='collapse', href='#collapse'+i)
+                                      hr
+                                      h6 See All Booking details
+                                .panel-collapse.collapse.in(id="collapse"+i)
+                                  each booking in doc.bookings_month
+                                    flex-container(style='background-color:#a6f1a6; width:100%;')
+                                                three.flex-container
+                                                    | #[strong Start:] #{moment(booking.date_started).format('DD/MM/YYYY HH:mm')}
+                                                three.flex-container
+                                                    | #[strong  Finish:] #{moment(booking.date_finished).format('DD/MM/YYYY HH:mm')}
+                                                three.flex-container
+                                                    | #[strong  Cost:]  #{booking.total_cost.toFixed(2)}
+                                                li
+        else
+            h1 No booking history found
+            h3= 'Start booking now' + "  "
+             a(href='/catalog/resources')
+              | here:
+
+
+
+
+
+
+
+
+
+
+
