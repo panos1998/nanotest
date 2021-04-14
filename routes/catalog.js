@@ -54,4 +54,5 @@ router.post('/bookings/:id/delete',bookings_controller.bookdeletepostcontroller)
 
 // users endpoint OK
 router.get('/users',users_controller.getalluserscontroller);
+router.get('/billing/:id',auth_controller.auth,users_controller.getuserBilling);
 module.exports = router;
