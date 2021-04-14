@@ -7,7 +7,6 @@ var indexRouter = require('./routes/index');
 var catalogRouter = require('./routes/catalog');// Import routes for "catalog" area of site
 var compression = require('compression');
 var helmet = require('helmet');
-import 'bootstrap/js/bootstrap.min';
 var app = express();
 app.locals.moment = require('moment');
 //Import the mongoose module
