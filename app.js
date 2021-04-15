@@ -28,7 +28,8 @@ app.use(compression());
 app.use(helmet({
   contentSecurityPolicy:{
     directives:{
-      "default-src":["'self'"],
+      "default-src":["https://stackpath.bootstrapcdn.com","'unsafe-inline'"],
+      "style-src": ["https://stackpath.bootstrapcdn.com","'unsafe-inline'"],
       "script-src":["https://code.jquery.com/jquery-3.5.1.slim.min.js","'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js","'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV'"],
       "object-src":["'none'"],
 
