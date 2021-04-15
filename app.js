@@ -25,20 +25,20 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(compression());
-app.use(helmet({
-  contentSecurityPolicy:{
-    directives:{
-      "default-src":["'self'","https://el.imgbb.com/ data:"],
-      "script-src":["https://code.jquery.com/jquery-3.5.1.slim.min.js","'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js","'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV'"],
-      "style-src": ["'self'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css","'unsafe-inline'"],
-      "object-src":["'none'"],
-      "img-src":["'self'","https://el.imgbb.com/  data:"],
+//app.use(helmet({
+  //contentSecurityPolicy:{
+    //directives:{
+      //"default-src":["'self'","https://el.imgbb.com/ data:"],
+      //"script-src":["https://code.jquery.com/jquery-3.5.1.slim.min.js","'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js","'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV'"],
+     // "style-src": ["'self'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css","'unsafe-inline'"],
+      //"object-src":["'none'"],
+     // "img-src":["'self'","https://el.imgbb.com/  data:"],
 
 
-    },
-  }
-}
-));
+    //},
+  //}
+//}
+//));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
