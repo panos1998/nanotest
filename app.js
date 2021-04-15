@@ -28,7 +28,7 @@ app.use(compression());
 app.use(helmet({
   contentSecurityPolicy:{
     directives:{
-      "default-src": ["'self'","stackpath.bootstrapcdn.com"],
+      "default-src": ["'self'","stackpath.bootstrapcdn.com","code.jquery.com"],
       "script-src": ["'self'", "code.jquery.com","stackpath.bootstrapcdn.com"],
     },
   }
