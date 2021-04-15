@@ -28,10 +28,10 @@ app.use(compression());
 app.use(helmet({
   contentSecurityPolicy:{
     directives:{
-      "default-src": ["'self'","stackpath.bootstrapcdn.com","code.jquery.com"],
-      "script-src": ["'self'", "code.jquery.com","stackpath.bootstrapcdn.com"],
-      "object-src": ["'self'", "code.jquery.com","stackpath.bootstrapcdn.com"],
-      "style-src":["'self'","stackpath.bootstrapcdn.com"],
+      "default-src": ["'self'","https://stackpath.bootstrapcdn.com","https://code.jquery.com"],
+      "script-src": ["'self'", "https://code.jquery.com","https://stackpath.bootstrapcdn.com"],
+      "object-src": ["'self'", "https://code.jquery.com","https://stackpath.bootstrapcdn.com"],
+      "style-src":["'self'","https://stackpath.bootstrapcdn.com"],
     },
   }
 }
