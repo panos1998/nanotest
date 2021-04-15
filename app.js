@@ -28,10 +28,7 @@ app.use(compression());
 app.use(helmet({
   contentSecurityPolicy:{
     directives:{
-      "default-src": ["'self'","'unsafe-hashes'","https://stackpath.bootstrapcdn.com","https://code.jquery.com"],
-      "script-src": ["'self'","'unsafe-hashes", "https://code.jquery.com","https://stackpath.bootstrapcdn.com"],
-      "object-src": ["'self'","'unsafe-hashes", "https://code.jquery.com","https://stackpath.bootstrapcdn.com"],
-      "style-src":["'self'","'unsafe-hashes","https://stackpath.bootstrapcdn.com"],
+      "default-src": ["'self'","https://stackpath.bootstrapcdn.com","https://code.jquery.com"],
     },
   }
 }
