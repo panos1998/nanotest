@@ -30,7 +30,6 @@ app.use(helmet({
     directives:{
       "default-src": ["'self'"],
       "script-src": ["'self'", "code.jquery.com","stackpath.bootstrapcdn.com"],
-      "object-src": ["'none'"],
     },
   }
 }
