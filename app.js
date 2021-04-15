@@ -31,7 +31,7 @@ app.use(helmet({
       "default-src": ["'self'","stackpath.bootstrapcdn.com","code.jquery.com"],
       "script-src": ["'self'", "code.jquery.com","stackpath.bootstrapcdn.com"],
       "object-src": ["'self'", "code.jquery.com","stackpath.bootstrapcdn.com"],
-      "style-src":["stackpath.bootstrapcdn.com"],
+      "style-src":["'self'","stackpath.bootstrapcdn.com"],
     },
   }
 }
