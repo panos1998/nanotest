@@ -32,7 +32,7 @@ app.use(helmet({
       "script-src":["https://code.jquery.com/jquery-3.5.1.slim.min.js","'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js","'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV'"],
       "style-src": ["'self'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css","'unsafe-inline'"],
       "object-src":["'none'"],
-      "img-src":["'self'","https://*.el.imgbb.com/"],
+      "img-src":["'self'","https://i.ibb.co/M9R4F5t/logo.png"],
 
 
     },
