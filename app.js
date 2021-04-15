@@ -29,7 +29,8 @@ app.use(helmet({
   contentSecurityPolicy:{
     directives:{
       "default-src": ["'self'","https://stackpath.bootstrapcdn.com","https://code.jquery.com"],
-      "script-src":["'self'","https://code.jquery.com","sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"]
+      "script-src":["'self'","https://code.jquery.com","sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"],
+      "script-src-elem":["'self'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"],
     },
   }
 }
