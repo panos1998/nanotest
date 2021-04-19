@@ -1,30 +1,35 @@
 extends layout
+
 block content
-   if (null===resource_item)
-       h1 404! No resources found
-   else
-    h1= resource_item.name
-    img(src=""+resource_item.photoLink+"" style='float:left;' alt="logo" )
-    h2= "Status : "
-     |  #{resource_item.availability}
-    h2= "Cost per hour:"
-     |  #{resource_item.ph} /hour
-    h4= "Maximum Booking days : "
-        | #{resource_item.maxBookingDays}
-    h4= "You can Book this resource again after (since  your last booking): "
-        | #{resource_item.dateInterval}
-    flex-container(style='background-color:white;')
-     buttons.flex-container
-      a(href='/catalog/resources/'+resource_item._id+'/addBooking')
-       button.btn.btn-primary Book now
-     if(role=="admin")
-      buttons.flex-container
-       a(href='/catalog/resources/'+resource_item._id+'/update' )
-        button.btn.btn-primary Update
-      buttons.flex-container
-          a(href='/catalog/bookings/resource/' + resource_item._id )
-              button.btn.btn-primary Bookings
-      buttons.flex-container
-          form(method='POST' action='/catalog/resources/'+resource_item._id+'/delete')
-            button.btn.btn-primary  Delete
-     else
+    if (null===resource_item)
+        h1 404! No resources found
+    else
+        h1= resource_item.name
+        img(src=""+resource_item.photoLink+"" style='float:left;' alt="logo" )
+        h2= "Status : "
+            |  #{resource_item.availability}
+        h2= "Cost per hour:"
+            |  #{resource_item.ph} /hour
+        h4= "Maximum Booking days : "
+            | #{resource_item.maxBookingDays}
+        h4= "You can Book this resource again after (since  your last booking): "
+            | #{resource_item.dateInterval}
+        flex-container(style='background-color:white;')
+            buttons.flex-container
+                a(href='/catalog/resources/' + resource_item._id + '/calendar')
+                    button.btn.btn-primary See Calendar
+            buttons.flex-container
+                a(href='/catalog/resources/' + resource_item._id + '/addBooking')
+                    button.btn.btn-primary Book now
+            if(role=="admin")
+                buttons.flex-container
+                    a(href='/catalog/resources/'+resource_item._id+'/update' )
+                        button.btn.btn-primary Update
+                buttons.flex-container
+                    a(href='/catalog/bookings/resource/' + resource_item._id )
+                        button.btn.btn-primary Bookings
+                buttons.flex-container
+                    form(method='POST' action='/catalog/resources/'+resource_item._id+'/delete')
+                        button.btn.btn-primary  Delete
+
+

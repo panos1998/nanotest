@@ -184,3 +184,25 @@ exports.deleteresourcepostcontroller=function (req,res,next){
         })
 
 };
+
+exports.getcalendar=async function (req,res,next){
+    res.render('calendar',{resourceID:req.params.id});
+
+};
+
+exports.getresources=async function(req,res,next){
+    try {
+        var resourcedata=await resource.aggregate().project({
+            'id': '$_id',
+            'title':'$name',
+            _id:0
+        })
+    }
+    catch (error){
+        return next(error)
+    }
+    finally {
+        console.log(resourcedata)
+        res.json(JSON.parse(JSON.stringify(resourcedata)))
+    }
+};

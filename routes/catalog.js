@@ -34,6 +34,12 @@ router.post('/resources/:id/delete',auth_controller.adminauth,resources_controll
 router.get('/resources/:id/addBooking',auth_controller.auth,resources_controller.resourcegetbookcontroller);
 //POST booking to specific resource OK
 router.post('/resources/:id/addBooking',resources_controller.postbookingcontroller)
+///CALENDAR
+router.get('/resources/calendar/resources',resources_controller.getresources)
+//
+router.get('/resources/calendar/bookings',bookings_controller.getbookings)
+//
+router.get('/resources/:id/calendar',auth_controller.auth,resources_controller.getcalendar);
 
   //Books endpoints
 

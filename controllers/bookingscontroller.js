@@ -90,3 +90,21 @@ exports.bookdeletepostcontroller=function (req,res,next){
     )
 };
 
+exports.getbookings= async function  (req,res,next){
+    try {
+        var bookdata= await booking.aggregate().project({
+            'title': '$Project_title',
+            'resourceId':'$resourceID',
+            'start': '$date_started',
+            'end': '$date_finished',
+            _id:0
+        })
+    }
+    catch (error){
+        return next(error);
+    }
+    finally {
+        console.log(bookdata)
+        res.json(JSON.parse(JSON.stringify(bookdata)))
+    }
+};
