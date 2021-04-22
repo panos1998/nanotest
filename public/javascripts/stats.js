@@ -4,7 +4,7 @@ window.onload = function () {
     var thedata3=[];
     var thedata4=[];
     var months=["January","February","March","April","May","June","July","August","October","November","December"];
-    $.getJSON("http://localhost:3000/catalog/statistics/BookingsPerResource", function (items) {
+    $.getJSON("/catalog/statistics/BookingsPerResource", function (items) {
         $.each(items.BooksperResource, function (index, value) {
             thedata1.push({
                 label: value.label,
