@@ -7,6 +7,7 @@ var auth_controller=require('../controllers/authcontroller');
 var users_controller=require('../controllers/userscontroller');
 var bookings_controller= require('../controllers/bookingscontroller');
 var resources_controller= require('../controllers/resourcescontroller');
+var statscontroller=require('../controllers/statscontroller');
 
 //menu
 router.get('/',function(req,res,next){
@@ -61,4 +62,10 @@ router.post('/bookings/:id/delete',bookings_controller.bookdeletepostcontroller)
 // users endpoint OK
 router.get('/users',users_controller.getalluserscontroller);
 router.get('/billing/:id',auth_controller.auth,users_controller.getuserBilling);
+
+// Stats endpoints
+router.get('/statistics',auth_controller.adminauth,statscontroller.displayStats)
+//
+router.get('/statistics/BookingsPerResource',statscontroller.loadStats)
+
 module.exports = router;

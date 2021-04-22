@@ -1,0 +1,59 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        script( src="https://canvasjs.com/assets/script/canvasjs.min.js")
+        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous")
+        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
+        script(src='/javascripts/stats.js')
+        link(rel='stylesheet', href='/stylesheets/style.css')
+
+
+    body
+        div(class='container-fluid')
+            div(class='row')
+                div(class='col-sm-2')
+                    block sidebar
+                        ul(class='sidebar-nav')
+                            li
+                                a(href='/catalog') Home
+                            li
+                                a(href='/catalog/resources') All Resources
+
+                            li
+                                a(href='/catalog/bookings') My Bookings
+
+                    if(role == "admin")
+
+                        block sidebar
+                            ul(class='sidebar-nav')
+                                li
+                                    hr
+                                li
+                                    a(href='/catalog/resources/create') Create new Resource
+                                li
+                                    a(href='/catalog/users') Get all users
+                                li
+                    block sidebar
+                        canvas(id='canvas' width='110' height='110' style='background-color:white;padding-top:30px;')
+                        script(src='/javascripts/clock.js')
+                div(class='col-sm-8')
+                    h1(style='padding-bottom:10px;') Statistics Dashboard
+                    flex-container
+                        .div(style='padding-top:0px;')
+                            h5= "Total Users: "+result.TotalUsers[0].Users +" "+"Total Resources: "+ result.TotalResources[0].Resources+" "+"Total Bookings: " +result.TotalBookings[0].Bookings
+                    h3(style='padding-left:350px;padding-top:30px;text-align:right; ') Bookings & Average  Time per Resource
+                        .after(style='content:" ";position: relative;right:370px;opacity:0.7;display:block;border:2px solid black; border-radius:30px;padding-left:900px;')
+                    flex-container(style='flex-direction:row;justify-content:flex-start;align-content:flex-start;background-color:white;border-color:white;')
+                        div(id="chartContainer1" style="height: 350px; width: 70%; padding-top:15px;background-color:white;border-color:white;")
+                        div(id="chartContainer3" style="height: 350px; width: 30%; padding-top:15px;background-color:white;border-color:white;")
+                    h3(style='padding-left:350px;padding-top:30px;text-align:right; ') Bookings Per Month
+                        .after(style='content:" ";position: relative;right:370px;opacity:0.7;display:block;border:2px solid black; border-radius:30px;padding-left:900px;')
+                    div(id="chartContainer2" style="height: 300px; width: 100%; padding-top:15px;")
+                    h3(style='padding-left:350px;padding-top:30px;text-align:right; ') Average Income per Resource
+                        .after(style='content:" ";position: relative;right:370px;opacity:0.7;display:block;border:2px solid black; border-radius:30px;padding-left:900px;')
+                    div(id="chartContainer4" style="height: 300px; width: 100%; padding-top:15px;")
+
+

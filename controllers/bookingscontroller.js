@@ -108,3 +108,5 @@ exports.getbookings= async function  (req,res,next){
         res.json(JSON.parse(JSON.stringify(bookdata)))
     }
 };
+
+
