@@ -67,5 +67,6 @@ router.get('/billing/:id',auth_controller.auth,users_controller.getuserBilling);
 router.get('/statistics',auth_controller.auth,auth_controller.adminauth,statscontroller.displayStats)
 //
 router.get('/statistics/BookingsPerResource',auth_controller.auth,auth_controller.adminauth,statscontroller.loadStats)
-
+/*LOG OUT*/
+router.get('/logout',auth_controller.getlogoutcontroller);
 module.exports = router;
