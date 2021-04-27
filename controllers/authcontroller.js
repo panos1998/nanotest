@@ -102,7 +102,7 @@ exports.postlogindatacontroller= function(req,res,next){
                             secure:true
                         });
                         console.log(token);
-                        res.redirect('catalog');
+                        res.redirect('/catalog');
                     }
                     else{
                         res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
