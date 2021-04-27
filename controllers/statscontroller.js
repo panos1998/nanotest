@@ -107,7 +107,7 @@ exports.displayStats= function (req,res,next){
         else{
             console.log(result.TotalUsers[0].Users)
             console.log(result.AverageTimePerResource)
-            res.render('statsDash',{role:"admin",result:JSON.parse(JSON.stringify(result))});
+            res.render('statsDash',{role:req.userData.role,result:JSON.parse(JSON.stringify(result))});
         }
     })
 

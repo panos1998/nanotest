@@ -2,21 +2,42 @@ var express =require('express');
 var user= require('../models/Users')
 var async= require('async');
 var {body,validationResult}= require('express-validator');
+const bcrypt=require('bcrypt');
+const jwt=require('jsonwebtoken')
 //Makes user authentication//
-exports.auth= function(req,res,next){
-    console.log("authenticated");
-    next();
+exports.auth= async function (req,res,next){
+    try{
+        var token=req.headers.cookie.split("=")[1];
+        //var token=  req.headers.authorization.split(" ")[1];
+        console.log("this is the header: "+ req.headers.authorization)
+        console.log("this is the token : "+ token)
+        const decoded=jwt.verify(token,"paokara")
+        req.userData=decoded;
+        console.log(decoded);
+        next();
+    }catch (error){
+        console.log("not auth");
+        console.log("this is the header: "+ req.headers.authorization)
+        console.log("this is the token : "+ token)
+        res.redirect('/login')
+
+    }
+
 };
 exports.adminauth=function(req,res,next){
-    console.log("admin authenticated");
-    next();
+
+    if(req.userData.role=="admin"){
+        console.log("admin authenticated");
+        next();
+    }
+    else {res.redirect('/');}
 };
 
 exports.gethomepagecontroller=function(req,res,next){
     res.render( 'Welcomepage' );
 };
 exports.getmenucontroller=function(req,res,next){
-  res.render( 'index' ,{title:"Nanotypos",role:"admin"});
+    res.render( 'index' ,{title:"Nanotypos",role:"admin"});
 };
 
 exports.getregisterformcontroller=function (req,res,next){
@@ -24,38 +45,79 @@ exports.getregisterformcontroller=function (req,res,next){
 };
 exports.postregistercontroller=[
     body('Name email password Phone','Don try to hack us :)').escape()
-    ,async function(req,res,next){
-        var errors= await validationResult(req);
+    , function(req,res,next){
+        var errors=  validationResult(req);
         if(! errors.isEmpty()){
             res.render('Registerpage',{title:"Register",errors:errors.array()});
         }
-        var User=  new user({
-            Uname: req.body.name,
-            email: req.body.email,
-            hashed_password : req.body.password,
-            phone: req.body.phone,
-            role: "admin"
-
-        });
-        try{
-            var  result= await user.exists({email:User.email})}
-        catch(error){return next(error);}
-        finally {
-            if(result){res.render('Registerpage',{title:"Register",errors:"User with this email already exists, please try another",msg:body.message})}
-            else( User.save((err  ) =>{
-                    if (err){return next(err);}
-
-                    else{ res.redirect('catalog')}})
-
-            )
-        }
-
+        bcrypt.hash(req.body.password,10,(err,hash)=>{
+                if(err){return next(err)}
+                else {
+                    var User=  new user({
+                        Uname: req.body.name,
+                        email: req.body.email,
+                        hashed_password : hash,
+                        phone: req.body.phone,
+                        role: "user"
+                    });
+                    user.exists({email:User.email},function (err,obj){
+                            if(obj){
+                                res.render('Registerpage',{title:"Register",errors:"User with this email already exists, please try another",msg:body.message})
+                            }
+                            else( User.save((err  ) =>{
+                                    if (err){return next(err);}
+                                    else{ console.log(User) ;
+                                        res.redirect('login')}
+                                })
+                            )
+                        }
+                    )
+                }
+            }
+        )
     }];
 
 exports.getloginformcontroller=function(req,res,next){
     res.render("Loginpage",{title:"Login"});
 };
 exports.postlogindatacontroller= function(req,res,next){
-    res.send("login credits posted");
+    user.find({email:req.body.email})
+        .exec()
+        .then(User=>{
+                if(User.length<1){
+                    res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
+                }
+                bcrypt.compare(req.body.password,User[0].hashed_password,(err,result)=>{
+                    if (err){res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})}
+                    if (result){
+                        const token=  jwt.sign({
+                            id:User[0]._id,
+                            role:User[0].role
+                        },"paokara",{
+                            expiresIn: "2h"
+                        })
+                        res.cookie('JWT',token,{
+                            maxAge:7_200_000,
+                            httpOnly:true,
+                            secure:true
+                        });
+                        console.log(token);
+                        res.redirect('catalog');
+                    }
+                    else{
+                        res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
+                    }
+                });
+            }
+        )
+        .catch(err=>{
+            return next(err)
+        })
+    // res.send("login credits posted");
 };
 
+exports.getlogoutcontroller=function (req,res,next){
+    res.cookie('JWT',null)
+    res.redirect('/');
+
+}

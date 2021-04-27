@@ -22,6 +22,6 @@ router.post('/register/',auth_controller.postregistercontroller);
 /*GET LOGIN FORM*/
 router.get('/login/',auth_controller.getloginformcontroller);
 /* POST LOGIN DATA requires admin authentication*/
-router.post('/login/',auth_controller.adminauth,auth_controller.postlogindatacontroller);
+router.post('/login/',auth_controller.auth,auth_controller.adminauth,auth_controller.postlogindatacontroller);
 
 module.exports = router;

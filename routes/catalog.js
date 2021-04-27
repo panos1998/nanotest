@@ -10,8 +10,8 @@ var resources_controller= require('../controllers/resourcescontroller');
 var statscontroller=require('../controllers/statscontroller');
 
 //menu
-router.get('/',function(req,res,next){
-    res.render('CentralPage',{role:"admin",username:"User"});
+router.get('/',auth_controller.auth,function(req,res,next){
+    res.render('CentralPage',{role:req.userData.role,username:"User"});
 });
 
 
@@ -20,25 +20,25 @@ router.get('/',function(req,res,next){
 // GET ALL resources list    OK
 router.get('/resources',auth_controller.auth,resources_controller.resourceslistcontroller);
 //GET resource by id OK
-router.get('/resources/:id/get',auth_controller.adminauth,resources_controller.resourcebyidcontroller);
+router.get('/resources/:id/get',auth_controller.auth,resources_controller.resourcebyidcontroller);
 //GET resource create form requires OK admin authentication ekremmei
-router.get('/resources/create',auth_controller.adminauth,resources_controller.resourcecreateformcontroller);
+router.get('/resources/create',auth_controller.auth,auth_controller.adminauth,resources_controller.resourcecreateformcontroller);
 //POST resource from resource create form  OK requires admin authentication ekremei
 router.post('/resources/create',resources_controller.resourcecreatepostcontroller);
 //GET resource update form requires admin authentication EKREMEI
-router.get('/resources/:id/update',auth_controller.adminauth,resources_controller.updateresourcegetcontroller);
+router.get('/resources/:id/update',auth_controller.auth,auth_controller.adminauth,resources_controller.updateresourcegetcontroller);
 //POST  updated resource ekremei
-router.post('/resources/:id/update',resources_controller.updateresourcepostcontroller);
+router.post('/resources/:id/update',auth_controller.auth,auth_controller.adminauth,resources_controller.updateresourcepostcontroller);
 //DELETE  a resource requires admin auth OK
-router.post('/resources/:id/delete',auth_controller.adminauth,resources_controller.deleteresourcepostcontroller);
+router.post('/resources/:id/delete',auth_controller.auth,auth_controller.adminauth,resources_controller.deleteresourcepostcontroller);
 //GET RESOURCE SPECIFIC BOOK FORM  OK
 router.get('/resources/:id/addBooking',auth_controller.auth,resources_controller.resourcegetbookcontroller);
 //POST booking to specific resource OK
-router.post('/resources/:id/addBooking',resources_controller.postbookingcontroller)
+router.post('/resources/:id/addBooking',auth_controller.auth,resources_controller.postbookingcontroller)
 ///CALENDAR
-router.get('/resources/calendar/resources',resources_controller.getresources)
+router.get('/resources/calendar/resources',auth_controller.auth,resources_controller.getresources)
 //
-router.get('/resources/calendar/bookings',bookings_controller.getbookings)
+router.get('/resources/calendar/bookings',auth_controller.auth,bookings_controller.getbookings)
 //
 router.get('/resources/:id/calendar',auth_controller.auth,resources_controller.getcalendar);
 
@@ -50,22 +50,22 @@ router.get('/bookings',auth_controller.auth,bookings_controller.getallbookscontr
 //GET booking by ID EKREMEI
 router.get('/bookings/:id/get',auth_controller.auth,bookings_controller.getbookbyidcontroller);
 //GET all bookings by resource OK
-router.get('/bookings/resource/:resourceID',auth_controller.adminauth,bookings_controller.bookbyresourcecontroller);
+router.get('/bookings/resource/:resourceID',auth_controller.auth,auth_controller.adminauth,bookings_controller.bookbyresourcecontroller);
 // GET update booking form EKREMMEI KAI USER AUTH
-router.get('/bookings/:id/update',auth_controller.adminauth,bookings_controller.bookgetupdateformcontroller);
+router.get('/bookings/:id/update',auth_controller.auth,bookings_controller.bookgetupdateformcontroller);
 //POST update booking form EKREMEI
-router.post('/bookings/:id/update',bookings_controller.bookupdatepostcontroller);
+router.post('/bookings/:id/update',auth_controller.auth,bookings_controller.bookupdatepostcontroller);
 //POST delete booking form //allos controller EKREMEI
-router.post('/bookings/:id/delete',bookings_controller.bookdeletepostcontroller);
+router.post('/bookings/:id/delete',auth_controller.auth,bookings_controller.bookdeletepostcontroller);
 
 
 // users endpoint OK
-router.get('/users',users_controller.getalluserscontroller);
+router.get('/users',auth_controller.auth,auth_controller.adminauth,users_controller.getalluserscontroller);
 router.get('/billing/:id',auth_controller.auth,users_controller.getuserBilling);
 
 // Stats endpoints
-router.get('/statistics',auth_controller.adminauth,statscontroller.displayStats)
+router.get('/statistics',auth_controller.auth,auth_controller.adminauth,statscontroller.displayStats)
 //
-router.get('/statistics/BookingsPerResource',statscontroller.loadStats)
+router.get('/statistics/BookingsPerResource',auth_controller.auth,auth_controller.adminauth,statscontroller.loadStats)
 
 module.exports = router;

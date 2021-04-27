@@ -6,19 +6,23 @@ var async= require('async');
 var mongoose =require('mongoose');
 
 exports.getallbookscontroller= async function(req,res,next){
+    var query={};
+    if(req.userData.role=="user"){
+        query.userID=req.userData.id;}
+    else if (req.userData.role=="admin"){query ={};}
     try {//if req.session.role=admin filter all if req.session.role=user filter by user ID
-        //var query={};
-        //query.userID;
-        //if (req.session.role=admin){query ={};}
+
         //else if (req.session.role=user){query[_id]=mongoose.Types.ObjectId(req.params.id);
         // query[userID]=mongoose.Types.ObjectId(bcrypt(req.session.id))
-        var bookings_found= await booking.find().sort({timestamp:-1})
+        var bookings_found= await booking.find(query).sort({timestamp:-1})
             .populate('userID','Uname phone -_id')
             .populate('resourceID','name')}
-        catch(err){
+    catch(err){
         return next(err);}
 
-        finally {res.render('all bookings',{book_list:bookings_found,role:"admin"});}
+    finally {
+        console.log(query);
+        res.render('all bookings',{book_list:bookings_found,role:req.userData.role});}
 };
 
 exports.getbookbyidcontroller= async function(req,res,next){
@@ -35,7 +39,7 @@ exports.getbookbyidcontroller= async function(req,res,next){
         return next(err);
     }
       finally {
-        res.render('bookbyid',{book:book_found,role:"admin"});
+        res.render('bookbyid',{book:book_found,role:req.userData.role});
 
     }
 
@@ -60,7 +64,7 @@ exports.bookbyresourcecontroller=async function (req,res,next){
     }
     finally {
 
-        res.render('bookingsbyresource',{found:result,role:"admin"});
+        res.render('bookingsbyresource',{found:result,role:req.userData.role});
     }
 };
 
@@ -84,7 +88,7 @@ exports.bookdeletepostcontroller=function (req,res,next){
     }
     ], function (err,result){
         if (err){return next(err);}
-        else {res.render('book failed',{title:"Book successfully deleted",role:"admin"});}
+        else {res.render('book failed',{title:"Book successfully deleted",role:req.userData.role});}
         }
 
     )

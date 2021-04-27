@@ -39,6 +39,11 @@ html(lang='en')
                     block sidebar
                         canvas(id='canvas' width='110' height='110' style='background-color:white;padding-top:30px;')
                         script(src='/javascripts/clock.js')
+                        ul(class='sidebar-nav')
+                            li
+                                hr
+                            li
+                                a(href='/logout') Logout
                 div(class='col-sm-8')
                     h1(style='padding-bottom:10px;') Statistics Dashboard
                     flex-container

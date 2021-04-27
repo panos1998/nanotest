@@ -13,7 +13,7 @@ exports.resourceslistcontroller= function(req,res,next){
            if (err){
                return next(err);
            }
-           res.render('resources_list',{title:"All resources listed below",resources_list:resources_found,role:"admin"});
+           res.render('resources_list',{title:"All resources listed below",resources_list:resources_found,role:req.userData.role});
         });
 };
 
@@ -23,13 +23,13 @@ exports.resourcebyidcontroller= function(req,res,next){
             if (err){
                 return next(err);
             }
-            res.render('resourcebyId_page',{resource_item:resource_found,role:"admin"});
+            res.render('resourcebyId_page',{resource_item:resource_found,role:req.userData.role});
         });
 
 };
 
 exports.resourcecreateformcontroller= function(req,res,next){
-    res.render('addResourceform',{title:"Add a new resource",role:"admin"});
+    res.render('addResourceform',{title:"Add a new resource",role:req.userData.role});
 };
 
 exports.resourcecreatepostcontroller=[
@@ -42,7 +42,7 @@ exports.resourcecreatepostcontroller=[
     var resour= new resource({name:req.body.name,status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking,dateInterval:req.body.interval});
     console.log(resour.hourcost);
     if(!errors.isEmpty()){
-        res.render('addResourceform',{title:"Add a new Resource",resource:resour,errors:errors.array(),role:"admin"});
+        res.render('addResourceform',{title:"Add a new Resource",resource:resour,errors:errors.array(),role:req.userData.role});
         return;
     }
     else{
@@ -52,7 +52,7 @@ exports.resourcecreatepostcontroller=[
               else if(found_resource){
                   let  Infomessage="Name already exists, please choose another";
                   resour.name="";
-              res.render('addResourceform',{title:"Add a new Resource",message:Infomessage,resource:resour});}
+              res.render('addResourceform',{title:"Add a new Resource",message:Infomessage,resource:resour,role:req.userData.role});}
               else {
               resour.save(function (err) {
                 if (err) { return next(err);}
@@ -68,7 +68,7 @@ exports.resourcegetbookcontroller=function(req,res,next){
     resource.findById(req.params.id)
         .exec(function(err,found_resource){
             if(err){return next(err);}
-            else  res.render('bookspecificresource_form',{resource_item:found_resource,role:"admin"});
+            else  res.render('bookspecificresource_form',{resource_item:found_resource,role:req.userData.role});
         })
 
 };
@@ -89,16 +89,16 @@ exports.postbookingcontroller=function(req,res,next){
             function(err,results){
             if(err){return next(err);}
             else if(results.exists_already||results.booked_early){
-                res.render('book failed',{title:"Sorry you are not allowed to make this booking please  try again later :)",role:"admin"});
+                res.render('book failed',{title:"Sorry you are not allowed to make this booking please  try again later :)",role:req.userData.role});
                }
             else{ let d1=DateTime.fromISO(req.body.date_started).toISODate();
                 let d2=DateTime.fromISO(req.body.date_finished).toISODate();
                 let  workingdiff = moment(''+d1+'', 'YYYY-MM-DD').businessDiff(moment(''+d2+'','YYYY-MM-DD'));
-                if(workingdiff>results.book_found.maxBookingDays){res.render('book failed',{title:"Booking date interval exceeds max",role:"admin"});}
+                if(workingdiff>results.book_found.maxBookingDays){res.render('book failed',{title:"Booking date interval exceeds max",role:req.userData.role});}
                 else {
                     if(date4.getDay()==0||date4.getDay()==6||date3.getDay()==0||date3.getDay()==6){
                           // res.redirect('/catalog/bookings');
-                        res.render('bookspecificresource_form',{errors:"Please dont choose saturday or sunday as start/end booking dates",resource_item:results.book_found,role:"admin"},)
+                        res.render('bookspecificresource_form',{errors:"Please dont choose saturday or sunday as start/end booking dates",resource_item:results.book_found,role:req.userData.role},)
                         ;}
                     else{
                     let workingdiffToHours = workingdiff * 12 + date4.getHours()-date3.getHours();//(date4.getHours()-0) - (date3.getHours()-24);
@@ -106,7 +106,7 @@ exports.postbookingcontroller=function(req,res,next){
                     console.log(workingdiff);
                     let totalcost = workingdiffToHours*results.book_found.ph;//results.resource_found.cost_per_day
                     var book = new booking({
-                        userID: mongoose.Types.ObjectId(req.body.userID),
+                        userID: mongoose.Types.ObjectId(req.userData.id),
                         resourceID: mongoose.Types.ObjectId(req.params.id),
                         date_started: date3,
                         date_finished: date4,
@@ -165,7 +165,7 @@ exports.deleteresourcepostcontroller=function (req,res,next){
         if (err){
             return next(err);
         }
-        else {console.log("resource deleted"+ book_found)}
+        else {res.send("resource deleted"+ book_found)}
     });
      //gets booking ids where specific  resource used and the ids of users made each book
      booking.find({resourceID:mongoose.Types.ObjectId(req.params.id)},'_id userID')
@@ -177,7 +177,7 @@ exports.deleteresourcepostcontroller=function (req,res,next){
                     .exec(function (err,number){
                         if (err){return next(err);}
                         else{console.log(number)
-                        res.render('book failed',{title:"Resource Successfully delete",role:"admin"});}
+                        res.render('book failed',{title:"Resource Successfully delete",role:req.userData.role});}
                     });
                 //delete bookings
             }
@@ -186,7 +186,7 @@ exports.deleteresourcepostcontroller=function (req,res,next){
 };
 
 exports.getcalendar=async function (req,res,next){
-    res.render('calendar',{resourceID:req.params.id});
+    res.render('calendar',{resourceID:mongoose.Types.ObjectId(JSON.parse(JSON.stringify(req.params.id))),role:req.userData.role});
 
 };
 
