@@ -1,50 +1,7 @@
-doctype html
-html(lang='en')
-    head
-        title= title
-        meta(charset='utf-8')
-        meta(name='viewport', content='width=device-width, initial-scale=1')
-        script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
-        link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
-        script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
-        link(rel='stylesheet', href='/stylesheets/style.css')
-    body(background="https://i.ibb.co/WgDBQ5K/0df1a8b165072f5ea73ca6adcba87398.jpg;" style="background-repeat: no-repeat;")
-    div(class='container-fluid')
-        div(class='row')
-            div(class='col-sm-2')
-                block sidebar
-                    ul(class='sidebar-nav')
-                        li
-                            a(href='/catalog') Home
-                        li
-                            a(href='/catalog/resources') All Resources
+extends layout
+block content
+    h1 Welcome #{username}
 
-                        li
-                            a(href='/catalog/bookings') My Bookings
-
-                if(role=="admin")
-
-                    block sidebar
-                        ul(class='sidebar-nav')
-                            li
-                                hr
-                            li
-                                a(href='/catalog/resources/create') Create new Resource
-                            li
-                                a(href='/catalog/users') Get all users
-                            li
-                                a(href='/catalog/statistics') Get Statistics
-                block sidebar
-                    block sidebar
-                        canvas(id='canvas' width='150' height='150' style='background-color:white; padding-top:30px;')
-                        script(src='/javascripts/clock.js')
-                        ul(class='sidebar-nav')
-                            li
-                                hr
-                            li
-                                a(href='/logout') Logout
-            div(class='col-sm-10')
-                block content
-                  h1 Welcome #{username}
-                  li
-                  h3 You can navigate through LIMS by clicking on the left-sided bar
+    li
+    h3 You can navigate through LIMS by clicking on the left-sided bar
+    body(background="https://i.ibb.co/WgDBQ5K/0df1a8b165072f5ea73ca6adcba87398.jpg;" style="background-repeat: no-repeat !important;")
