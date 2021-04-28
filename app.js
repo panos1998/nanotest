@@ -36,7 +36,7 @@ app.use(helmet({
       "img-src":["'self'","https://i.ibb.co/ data:"],
       "report-uri":["https://a005ed3c3b6c22373aa7da7fa61d83a6.report-uri.com/r/d/csp/reportOnly"],
       "form-action":["'self'"],
-      "base-uri":["'self'"],
+      //"base-uri":["'self'"],
       //"frame-ancestors":["'self'"],
       upgradeInsecureRequests:[],
       //"worker-src":"'none'",
