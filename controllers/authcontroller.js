@@ -99,7 +99,8 @@ exports.postlogindatacontroller= function(req,res,next){
                         res.cookie('JWT',token,{
                             maxAge:7_200_000,
                             httpOnly:true,
-                            secure:true
+                            secure:true,
+                            sameSite:"strict"
                         });
                         console.log(token);
                         res.redirect('/catalog');
