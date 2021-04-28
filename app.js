@@ -30,9 +30,9 @@ app.use(helmet({
     directives:{
       "default-src":["'self'"],
       "script-src":["'self'","'report-sample'","'unsafe-inline'",'https://code.jquery.com/jquery-3.6.0.js',"https://canvasjs.com/assets/script/canvasjs.min.js","https://code.jquery.com/jquery-3.5.1.slim.min.js","'sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js","'sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV'","https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.6.0/main.min.js"],
-      "style-src": ["'self'","'report-sample'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css","'unsafe-inline'","https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.6.0/main.min.css"],
+      "style-src": ["'self'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css","'unsafe-inline'","https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.6.0/main.min.css"],
       "object-src":["'none'"],
-      "font-src":["'self'", "data:"],
+      //"font-src":["'self'", "data:"],
       "img-src":["'self'","https://i.ibb.co/ data:"],
       "report-uri":["https://a005ed3c3b6c22373aa7da7fa61d83a6.report-uri.com/r/d/csp/reportOnly"],
       "form-action":["'self'"],
