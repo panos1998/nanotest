@@ -42,10 +42,10 @@ app.use(helmet({
       "worker-src":"'none'",
       "connect-src":"'self'",
       "child-src":"'self'",
-      "frame-src":"'self'",
-      "prefetch-src":"'self'",
-      "manifest-src":"'self'",
-      "media-src":"'self'"
+      //"frame-src":"'self'",
+      //"prefetch-src":"'self'",
+      //"manifest-src":"'self'",
+
     },
   }
 }
