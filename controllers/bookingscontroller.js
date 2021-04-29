@@ -29,10 +29,18 @@ exports.getbookbyidcontroller= async function(req,res,next){
     //try{//if req.session.role=admin ok if req.session.role=user filter  by user id and booking id
       //  var booking_found=await booking.find({_id:})
     //}
-    try {
-        let query = {};
+    if(req.userData.role=="admin"){
+        var  query = {};
         query.userID
         query._id = mongoose.Types.ObjectId(req.params.id);
+    }
+    else{
+        var query={};
+        query.userID=mongoose.Types.ObjectId(req.userData.id);
+        query._id=mongoose.Types.ObjectId(req.params.id);
+    }
+    try {
+
         var book_found=await booking.find(query,'date_finished date_started Project_title Project_desc total_cost timestamp')
             .populate('resourceID','name')
     } catch (error){

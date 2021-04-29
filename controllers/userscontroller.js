@@ -10,7 +10,7 @@ exports.getalluserscontroller= async function(req,res,next){
         return next(error);
     }
     finally {
-        res.render('Userlist',{UserItem:users,role:"admin"})
+        res.render('Userlist',{UserItem:users,role:req.userData.role})
     }
 };
 
