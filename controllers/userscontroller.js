@@ -17,7 +17,7 @@ exports.getalluserscontroller= async function(req,res,next){
 exports.getuserBilling=async function(req,res,next){
     if(req.userData.id==req.params.id || req.userData.role=="admin") {
         try {
-            var obj = await booking.aggregate().match({userID: mongoose.Types.ObjectId(req.userData.id)}).group({
+            var obj = await booking.aggregate().match({userID: mongoose.Types.ObjectId(req.params.id)}).group({
                 _id: {
                     year: {$year: "$date_started"},
                     month: {$month: "$date_started"}
