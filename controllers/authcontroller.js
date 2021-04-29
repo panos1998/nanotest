@@ -93,7 +93,7 @@ exports.postlogindatacontroller= function(req,res,next){
                         const token=  jwt.sign({
                             id:User[0]._id,
                             role:User[0].role
-                        },"paokara",{
+                        },process.env.SECRET,{
                             expiresIn: "2h"
                         })
                         res.cookie('JWT',token,{

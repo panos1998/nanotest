@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -11,9 +12,9 @@ var app = express();
 app.locals.moment = require('moment');
 //Import the mongoose module
 var mongoose = require('mongoose');
-
+//console.log(process.env.RANDOM)
 //Set up default mongoose connection
-var mongoDB = 'mongodb+srv://paok:paokaras98@cluster0.fhdfj.mongodb.net/nanoDBTEST1?retryWrites=true&w=majority';
+var mongoDB = process.env.URL;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 
 //Get the default connection
