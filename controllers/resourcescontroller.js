@@ -153,12 +153,36 @@ exports.postbookingcontroller=function(req,res,next){
                 }}}});}
 
 exports.updateresourcegetcontroller= function(req,res,next){
-    res.send("resource credits updated");
+    resource.findById(req.params.id,'name status hourcost photoURL maxBookingDays dateInterval')
+        .exec(function (err,resource_found){
+            if (err){
+                return next(err);
+            }
+            res.render('addResourceform',{resource:resource_found,role:req.userData.role});
+        });
 };
 
-exports.updateresourcepostcontroller= function(req,res,next){
-    res.send("resource  updated credits posted");
-};
+exports.updateresourcepostcontroller= [
+    body('name','Max length exceeted').isLength({max:40}).escape(),
+    body('status').escape(),
+    function(req,res,next){
+        const errors=validationResult(req);
+        var d=  new Date();
+        if(!errors.isEmpty()){
+            res.render('addResourceform',{title:"Add a new Resource",resource:resour,errors:errors.array(),role:req.userData.role});
+            return;
+        }
+        else{
+                        resource.findOneAndUpdate({_id:req.params.id},{name:req.body.name,status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking,dateInterval:req.body.interval})
+                            .exec(function (err,doc){
+                            if (err) { return next(err);}
+                            res.redirect('/catalog'+doc.url)})
+
+                }
+
+
+        }
+];
 
 exports.deleteresourcepostcontroller=function (req,res,next){
     resource.findByIdAndDelete(mongoose.Types.ObjectId(req.params.id),{},function (err,book_found){
