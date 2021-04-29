@@ -11,7 +11,7 @@ var statscontroller=require('../controllers/statscontroller');
 
 //menu
 router.get('/',auth_controller.auth,function(req,res,next){
-    res.render('CentralPage',{role:req.userData.role,username:"User"});
+    res.render('CentralPage',{role:req.userData.role,id:req.userData.id,username:"User"});
 });
 
 
