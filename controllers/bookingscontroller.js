@@ -53,11 +53,45 @@ exports.getbookbyidcontroller= async function(req,res,next){
 
 };
 
-exports.bookgetupdateformcontroller= function(req,res,next){
-    res.send("update form");
+exports.bookgetupdateformcontroller=async  function(req,res,next){
+    if(req.userData.role=="admin"){
+        var  query = {};
+        query.userID
+        query._id = mongoose.Types.ObjectId(req.params.id);
+    }
+    else{
+        var query={};
+        query.userID=mongoose.Types.ObjectId(req.userData.id);
+        query._id=mongoose.Types.ObjectId(req.params.id);
+    }
+    try {
+        var book_found=await booking.find(query,'date_finished date_started Project_title Project_desc total_cost timestamp')
+            .populate('resourceID','name')
+    } catch (error){
+        return next(err);
+    }
+    res.render('update form',{book:book_found,role:req.userData.role});
 };
 
-exports.bookupdatepostcontroller= function(req,res,next){
+exports.bookupdatepostcontroller= async function(req,res,next){
+    mongoose.set('useFindAndModify', false);
+    if(req.userData.role=="admin"){
+        var  query = {};
+        query.userID
+        query._id = mongoose.Types.ObjectId(req.params.id);
+    }
+    else{
+        var query={};
+        query.userID=mongoose.Types.ObjectId(req.userData.id);
+        query._id=mongoose.Types.ObjectId(req.params.id);
+    }
+    try {
+        var book_found=await booking.findOneAndUpdate(query,{Project_title:req.body.Project_Title,Project_desc:req.body.Project_Desc})
+            .populate('resourceID','name')
+    } catch (error){
+        return next(err);
+    }
+    res.redirect('/catalog/bookings/'+book_found._id+'/get');
     console.log("booking credits updated");
 };
 //gets the books per resource only for admin
@@ -77,13 +111,28 @@ exports.bookbyresourcecontroller=async function (req,res,next){
 };
 
 exports.bookdeletepostcontroller=function (req,res,next){
+    if(req.userData.role=="admin"){
+        var  query = {};
+        query.userID
+        query._id = mongoose.Types.ObjectId(req.params.id);
+
+    }
+    else{
+        var query={};
+        query.userID=mongoose.Types.ObjectId(req.userData.id);
+        query._id=mongoose.Types.ObjectId(req.params.id);
+        query.date_started={$gte:Date.now()+3600000}
+    }
     async.waterfall([function (callback){
-        booking.findOneAndDelete({_id:mongoose.Types.ObjectId(req.params.id)},{projection:{resourceID:1}},function (err,booking_found){
+        booking.findOneAndDelete(query,{projection:{resourceID:1}},function (err,booking_found){
             if (err){callback(err,null); return;}
+            console.log(booking_found);
             callback(null,booking_found)
+
         });
     },function (found,callback){
-        console.log("this is resource id"+found.resourceID);
+       // console.log("this is resource id"+found.resourceID);
+        if (found!=null){
         resource.update({_id:found.resourceID},
             {$pull:{reservation:{BookingsID: mongoose.Types.ObjectId(req.params.id)}}},function (err){
                 if (err) {
@@ -92,10 +141,12 @@ exports.bookdeletepostcontroller=function (req,res,next){
                 }
                 console.log(found);
                 callback(null);
-            });
+            });}
+        else callback(null,"unsuccessfull");
     }
     ], function (err,result){
         if (err){return next(err);}
+        else if(result=="unsuccessfull"){res.render('book failed',{title:"Book did not delete",role:req.userData.role});}
         else {res.render('book failed',{title:"Book successfully deleted",role:req.userData.role});}
         }
 
