@@ -7,14 +7,24 @@ const { body,validationResult } = require("express-validator");
 const { DateTime } = require("luxon");
 var moment = require('moment-business-days');
 var mongoose =require('mongoose');
-exports.resourceslistcontroller= function(req,res,next){
-    resource.find({},'name status hourcost')
-        .exec(function (err,resources_found){
-           if (err){
-               return next(err);
-           }
-           res.render('resources_list',{title:"All resources listed below",resources_list:resources_found,role:req.userData.role});
-        });
+exports.resourceslistcontroller= async function(req,res,next){
+    let page=req.query.page;
+    let records_per_page=4;
+    try{
+    var  counter=await resource.find().count() }
+    catch (error){
+        return next(error);
+    }
+    try{
+    var  resources_found=await resource.find({},'name status hourcost').skip((page-1)*records_per_page).limit(records_per_page)
+    }
+    catch (error){
+        return  next(error);
+    }
+           let number_of_pages=Math.ceil(counter/records_per_page)
+           res.render('resources_list',{title:"All resources listed below",resources_list:resources_found,role:req.userData.role,pages:number_of_pages,pg:page});
+
+
 };
 
 exports.resourcebyidcontroller= function(req,res,next){

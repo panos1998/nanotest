@@ -4,13 +4,21 @@ var async= require('async');
 var booking=require('../models/Books');
 var mongoose=require('mongoose');
 exports.getalluserscontroller= async function(req,res,next){
+    let page=req.query.page;
+    let records_per_page=10;
+    try {
+        var number_of_users= await user.find().count();}
+    catch(err){
+        return next(err);}
     try{
-    var users=await user.find({},' _id Uname email phone role').sort({Uname:1});}
+    var users=await user.find({},' _id Uname email phone role').sort({Uname:1}).skip((page-1)*records_per_page).limit(records_per_page);}
     catch (error) {
         return next(error);
     }
     finally {
-        res.render('Userlist',{UserItem:users,role:req.userData.role})
+        let total_pages= Math.ceil(number_of_users/records_per_page);
+        console.log(total_pages);
+        res.render('Userlist',{UserItem:users,role:req.userData.role,pages:total_pages,pg:page})
     }
 };
 

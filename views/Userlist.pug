@@ -1,6 +1,15 @@
 extends layout
 block content
     h1= title
+    h5(style='text-align:center;') Page #{pg}
+    flex-container(style='justify-content:center;flex-direction:row;gap:7px;margin-bottom:15px;')
+        -for (j = 0; j < pages; j++)
+            form(method='GET'  action='')
+                div.form-row
+                    div.form-group.col-md-1
+                    label(for= 'page')
+                        input#page.form-control(type='hidden'  name='page' value=j + 1)
+                button.btn.btn-primary(type='submit;',style='width:33px; height:30px; ') #{j+1}
     ul
         table(style='width:100%')
             tr
@@ -22,3 +31,12 @@ block content
 
                 else
                     li There are no Users.
+    flex-container(style='justify-content:center;flex-direction:row;gap:7px;')
+        -for (k = 0; k < pages; k++)
+                form(method='GET'  action='')
+                    div.form-row
+                        div.form-group.col-md-1
+                        label(for= 'page')
+                            input#page1.form-control(type='hidden'  name='page' value=k + 1)
+                    button.btn.btn-primary(type='submit;',style='width:33px; height:30px; ') #{k + 1}
+    h5(style='text-align:center;') Page #{pg}
