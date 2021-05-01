@@ -6,23 +6,29 @@ var async= require('async');
 var mongoose =require('mongoose');
 
 exports.getallbookscontroller= async function(req,res,next){
+
+    let pg=req.query.page
+    let records_per_page=50;
     var query={};
     if(req.userData.role=="user"){
         query.userID=req.userData.id;}
     else if (req.userData.role=="admin"){query ={};}
-    try {//if req.session.role=admin filter all if req.session.role=user filter by user ID
-
-        //else if (req.session.role=user){query[_id]=mongoose.Types.ObjectId(req.params.id);
-        // query[userID]=mongoose.Types.ObjectId(bcrypt(req.session.id))
-        var bookings_found= await booking.find(query).sort({timestamp:-1})
+    try {
+        var number_of_bookings= await booking.find(query).count()}
+    catch(err){
+        return next(err);}
+    try {
+        var bookings_found= await booking.find(query).skip((pg-1)*records_per_page).sort({timestamp:-1})
             .populate('userID','Uname phone -_id')
-            .populate('resourceID','name')}
+            .populate('resourceID','name').limit(records_per_page)}
     catch(err){
         return next(err);}
 
     finally {
         console.log(query);
-        res.render('all bookings',{book_list:bookings_found,role:req.userData.role});}
+        console.log(number_of_bookings)
+        let total_pages=Math.ceil(number_of_bookings/records_per_page)
+        res.render('all bookings',{book_list:bookings_found,role:req.userData.role,number:pg,pages:total_pages/*nonceHash:res.locals.cspNonce*/});}
 };
 
 exports.getbookbyidcontroller= async function(req,res,next){

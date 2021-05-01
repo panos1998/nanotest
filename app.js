@@ -1,4 +1,5 @@
 require('dotenv').config();
+var crypto = require("crypto");
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -26,6 +27,12 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(compression());
+//app.use((req, res, next) => {
+  //res.locals.cspNonce = crypto.randomBytes(16).toString("hex");
+  //console.log(res.locals.cspNonce)
+  //next();
+//(req, res) => `'nonce-${res.locals.cspNonce}'` put this inside script-src
+//});
 app.use(helmet({
   contentSecurityPolicy:{
     directives:{

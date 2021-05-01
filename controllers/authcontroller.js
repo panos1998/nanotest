@@ -14,6 +14,7 @@ exports.auth= async function (req,res,next){
         const decoded=jwt.verify(token,"paokara")
         req.userData=decoded;
         console.log(decoded);
+        console.log(req.query.page)
         next();
     }catch (error){
         console.log("not auth");
