@@ -28,7 +28,7 @@ exports.resourceslistcontroller= async function(req,res,next){
 };
 
 exports.resourcebyidcontroller= function(req,res,next){
-    resource.findById(req.params.id,'name status hourcost photoURL maxBookingDays dateInterval')
+    resource.findById(req.params.id,'name status hourcost photoURL maxBookingDays ')
         .exec(function (err,resource_found){
             if (err){
                 return next(err);
@@ -49,7 +49,7 @@ exports.resourcecreatepostcontroller=[
     const errors=validationResult(req);
     var d=  new Date();
     console.log(req.body.costperhour);
-    var resour= new resource({name:req.body.name,status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking,dateInterval:req.body.interval});
+    var resour= new resource({name:req.body.name,status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking});
     console.log(resour.hourcost);
     if(!errors.isEmpty()){
         res.render('addResourceform',{title:"Add a new Resource",resource:resour,errors:errors.array(),role:req.userData.role});
@@ -82,85 +82,114 @@ exports.resourcegetbookcontroller=function(req,res,next){
         })
 
 };
-exports.postbookingcontroller=function(req,res,next){
-        let timestampa=  Date.now();//+(3*3600000);
-        let  time=new Date(timestampa);
-        let date1= (req.body.date_started);
-        let date3=new Date(""+date1+"");
-        let  date2= req.body.date_finished;
-        let date4=new Date(""+date2+"");
-        let d= Date.now()-3600000;// booking registering timestamp
-        let date= new Date(d);//  converted to date type
-        async.parallel({
-            book_found:   function (callback){resource.findOne({_id: req.params.id}).exec(callback)},
-            exists_already:  function (callback){booking.findOne({$and: [{resourceID:mongoose.Types.ObjectId(req.params.id)},{$or:[{date_started:{ $gte:date3,$lte:date4}},{date_finished:{ $gte:date3,$lte:date4}}]}]}).exec(callback)},
-            //returns true if user booked this resource  again since less than 1 hours
-          booked_early:   function (callback){ booking.findOne({userID:mongoose.Types.ObjectId(req.body.userID),resourceID:mongoose.Types.ObjectId(req.params.id),timestamp:{$gte:date}}).exec(callback)}},
-            function(err,results){
-            if(err){return next(err);}
-            else if(results.exists_already||results.booked_early){
-                res.render('book failed',{title:"Sorry you are not allowed to make this booking please  try again later :)",role:req.userData.role});
+exports.postbookingcontroller=async function(req,res,next){
+       try {
+           var existence=await resource.findOne({_id:req.params.id,status:'Available'})
+       }catch (error){
+           return next(error);
+       }
+       if (!existence){
+           res.render('book failed',{title:"You can not book this resource now, because it is under Maintenance"})
+       }
+       else{
+           let timestampa=  Date.now();//+(3*3600000);
+           let  time=new Date(timestampa);
+           let date1= (req.body.date_started);
+           let date3=new Date(""+date1+"");
+           let  date2= req.body.date_finished;
+           let date4=new Date(""+date2+"");
+           let d= Date.now()-3600000;// booking registering timestamp
+           //let date= new Date(d);//  converted to date type
+           if (date3>date4){res.render('book failed',{title:"Please choose Start date previous to End date"})}
+           else{
+               async.parallel({
+               book_found: function (callback) {
+                   resource.findOne({_id: req.params.id}).exec(callback)
+               },
+               exists_already: function (callback) {
+                   booking.findOne({
+                       $and: [{resourceID: mongoose.Types.ObjectId(req.params.id)}, {
+                           $or: [{
+                               date_started: {
+                                   $gte: date3,
+                                   $lte: date4
+                               }
+                           }, {date_finished: {$gte: date3, $lte: date4}}]
+                       }]
+                   }).exec(callback)
+               },
+               //returns true if user booked this resource  again since less than 1 hours
+               //booked_early:   function (callback){ booking.findOne({userID:mongoose.Types.ObjectId(req.body.userID),resourceID:mongoose.Types.ObjectId(req.params.id),timestamp:{$gte:date}}).exec(callback)}
+           },function(err,results){
+               if(err){return next(err);}
+               else if(results.exists_already/*||results.booked_early*/){
+                   res.render('book failed',{title:"Sorry you are not allowed to make this booking please  try again later :)",role:req.userData.role});
                }
-            else{ let d1=DateTime.fromISO(req.body.date_started).toISODate();
-                let d2=DateTime.fromISO(req.body.date_finished).toISODate();
-                let  workingdiff = moment(''+d1+'', 'YYYY-MM-DD').businessDiff(moment(''+d2+'','YYYY-MM-DD'));
-                if(workingdiff>results.book_found.maxBookingDays){res.render('book failed',{title:"Booking date interval exceeds max",role:req.userData.role});}
-                else {
-                    if(date4.getDay()==0||date4.getDay()==6||date3.getDay()==0||date3.getDay()==6){
-                          // res.redirect('/catalog/bookings');
-                        res.render('bookspecificresource_form',{errors:"Please dont choose saturday or sunday as start/end booking dates",resource_item:results.book_found,role:req.userData.role},)
-                        ;}
-                    else{
-                    let workingdiffToHours = workingdiff * 12 + date4.getHours()-date3.getHours();//(date4.getHours()-0) - (date3.getHours()-24);
-                    console.log(workingdiffToHours);
-                    console.log(workingdiff);
-                    let totalcost = workingdiffToHours*results.book_found.ph;//results.resource_found.cost_per_day
-                    var book = new booking({
-                        userID: mongoose.Types.ObjectId(req.userData.id),
-                        resourceID: mongoose.Types.ObjectId(req.params.id),
-                        date_started: date3,
-                        date_finished: date4,
-                        total_cost: totalcost,
-                        Project_title: req.body.Project_Title,
-                        Project_desc: req.body.Project_Desc,
-                        timestamp: time
-                    });
-                    async.waterfall([function (callback) {
-                        book.save(err, function (err, booking_found) {
-                            if (err) {
-                                callback(err, null);
-                                return;
-                            }
-                            var found_booking = booking_found;
-                            callback(null, found_booking);
-                        });
-                    }
-                        , function (found, callback) {
-                            resource.updateOne({_id: found.resourceID}, {
-                                $push: {
-                                    reservation: {
-                                        BookingsID: found._id,
-                                        date_started: found.date_started,
-                                        date_finished: found.date_finished
-                                    }
-                                }
-                            }, err, function () {
-                                if (err) {
-                                    callback(err, null);
-                                    return;
-                                }
+               else
+                   { let d1=DateTime.fromISO(req.body.date_started).toISODate();
+                   let d2=DateTime.fromISO(req.body.date_finished).toISODate();
+                   let  workingdiff = moment(''+d1+'', 'YYYY-MM-DD').businessDiff(moment(''+d2+'','YYYY-MM-DD'));
+                   if(workingdiff>results.book_found.maxBookingDays){res.render('book failed',{title:"Booking date interval exceeds max",role:req.userData.role});}
+                   else {
+                       if(date4.getDay()==0||date4.getDay()==6||date3.getDay()==0||date3.getDay()==6){
+                           // res.redirect('/catalog/bookings');
+                           res.render('bookspecificresource_form',{errors:"Please dont choose saturday or sunday as start/end booking dates",resource_item:results.book_found,role:req.userData.role},)
+                           ;}
+                       else{
+                           let workingdiffToHours = workingdiff * 12 + date4.getHours()-date3.getHours()+(date4.getMinutes()-date3.getMinutes())/60;//(date4.getHours()-0) - (date3.getHours()-24);
+                           console.log(workingdiffToHours);
+                           console.log(workingdiff);
+                           let totalcost = workingdiffToHours*results.book_found.ph;//results.resource_found.cost_per_day
+                           var book = new booking({
+                               userID: mongoose.Types.ObjectId(req.userData.id),
+                               resourceID: mongoose.Types.ObjectId(req.params.id),
+                               date_started: date3,
+                               date_finished: date4,
+                               total_cost: totalcost,
+                               Project_title: req.body.Project_Title,
+                               Project_desc: req.body.Project_Desc,
+                               timestamp: time
+                           });
+                           async.waterfall([function (callback) {
+                               book.save(err, function (err, booking_found) {
+                                   if (err) {
+                                       callback(err, null);
+                                       return;
+                                   }
+                                   var found_booking = booking_found;
+                                   callback(null, found_booking);
+                               });
+                           }
+                               , function (found, callback) {
+                                   resource.updateOne({_id: found.resourceID}, {
+                                       $push: {
+                                           reservation: {
+                                               BookingsID: found._id,
+                                               date_started: found.date_started,
+                                               date_finished: found.date_finished
+                                           }
+                                       }
+                                   }, err, function () {
+                                       if (err) {
+                                           callback(err, null);
+                                           return;
+                                       }
 
-                                callback(null);
-                            });}
+                                       callback(null);
+                                   });}
 
-                    ], function (err, result) {
-                        if (err) {
-                            res.send(err);
-                        } else {
-                            res.redirect('/catalog/bookings');
-                        }
-                    });
-                }}}});}
+                           ], function (err, result) {
+                               if (err) {
+                                   res.send(err);
+                               } else {
+                                   res.redirect('/catalog/bookings?page=1');
+                               }
+                           });
+                       }}}});}
+
+       }
+
+        }
 
 exports.updateresourcegetcontroller= function(req,res,next){
     resource.findById(req.params.id,'name status hourcost photoURL maxBookingDays dateInterval')

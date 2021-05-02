@@ -23,7 +23,12 @@ block content
                  td
                     a(href='/catalog'+resource.url) #{resource.name}
                  td #{resource.ph} Euros
-                 td #{resource.status}
+                 td
+                     if resource.status=='Available'
+                      span.text-success   #{resource.status}
+                     else
+                      span.text-warning   #{resource.status}
+
 
               else
                 li There are no resources.

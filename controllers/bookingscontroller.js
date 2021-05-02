@@ -6,7 +6,6 @@ var async= require('async');
 var mongoose =require('mongoose');
 
 exports.getallbookscontroller= async function(req,res,next){
-
     let pg=req.query.page
     let records_per_page=50;
     var query={};
@@ -102,17 +101,24 @@ exports.bookupdatepostcontroller= async function(req,res,next){
 };
 //gets the books per resource only for admin
 exports.bookbyresourcecontroller=async function (req,res,next){
+    let page=req.query.page;
+    let records_per_page=2;
+    try{
+        var bookings_count=await booking.find({resourceID:mongoose.Types.ObjectId(req.params.resourceID)}).count()
+    }catch (error){
+        return next(error)
+    }
     try {
         var result= await  booking.find({resourceID:mongoose.Types.ObjectId(req.params.resourceID)},
             'date_started date_finished timestamp total_cost')
-            .populate('userID','Uname-_id').populate('resourceID','name -_id')
+            .populate('userID','Uname-_id').populate('resourceID','name -_id').skip((page-1)*records_per_page).limit(records_per_page)
     }
     catch (error){
         return next(error);
     }
     finally {
-
-        res.render('bookingsbyresource',{found:result,role:req.userData.role});
+        let total_pages= Math.ceil(bookings_count/records_per_page);
+        res.render('bookingsbyresource',{found:result,role:req.userData.role,pages:total_pages,pg:page});
     }
 };
 

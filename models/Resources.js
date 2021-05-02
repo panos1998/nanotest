@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var ResourceSchema= new Schema({
     name: {type:String,required:true,maxlength:40},
-    status: {type: String,enum:["available","reserved"],default:"available"},
+    status: {type: String,enum:["Available","Maintenance"],default:"Available"},
     hourcost: {type:Number,required:true},
     photoURL: {type:String},
     maxBookingDays:{type:Number,default:10},

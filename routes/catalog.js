@@ -50,7 +50,7 @@ router.get('/bookings',auth_controller.auth,bookings_controller.getallbookscontr
 //GET booking by ID EKREMEI
 router.get('/bookings/:id/get',auth_controller.auth,bookings_controller.getbookbyidcontroller);
 //GET all bookings by resource OK
-router.get('/bookings/resource/:resourceID',auth_controller.auth,auth_controller.adminauth,bookings_controller.bookbyresourcecontroller);
+router.get('/bookings/:resourceID/resource',auth_controller.auth,auth_controller.adminauth,bookings_controller.bookbyresourcecontroller);
 // GET update booking form EKREMMEI KAI USER AUTH
 router.get('/bookings/:id/update',auth_controller.auth,bookings_controller.bookgetupdateformcontroller);
 //POST update booking form EKREMEI
