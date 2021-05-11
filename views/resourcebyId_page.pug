@@ -14,8 +14,8 @@ block content
         h3= "Cost per hour:"
             |  #{resource_item.ph} Euros
         h6 One booking quantum equals 30 minutes.
-        h3= "Maximum Booking days (Weekend Included*) : "
-            | #{resource_item.maxBookingDays+2}
+        h3= "Maximum Booking hour : "
+            | #{resource_item.maxBookingDays}
         flex-container(style='background-color:white;')
             buttons.flex-container
                 a(href='/catalog/resources/' + resource_item._id + '/calendar')
@@ -34,5 +34,3 @@ block content
                     form(method='POST' action='/catalog/resources/'+resource_item._id+'/delete')
                         button.btn.btn-primary  Delete
 
-
-        h6(style='margin-top:350px;margin-left:250px;') *Your final bill excludes Weekend time, since our organisation is closed on Weekends.
