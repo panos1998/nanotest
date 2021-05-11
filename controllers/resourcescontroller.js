@@ -9,7 +9,7 @@ var moment = require('moment-business-days');
 var mongoose =require('mongoose');
 exports.resourceslistcontroller= async function(req,res,next){
     let page=req.query.page;
-    let records_per_page=4;
+    let records_per_page=10;
     try{
     var  counter=await resource.find().count() }
     catch (error){
@@ -94,9 +94,13 @@ exports.postbookingcontroller=async function(req,res,next){
        else{
            let timestampa=  Date.now();//+(3*3600000);
            let  time=new Date(timestampa);
-           let date1= (req.body.date_started);
+           //let date1= (req.body.date_started);
+           let date1= ((req.body.date_started).concat("T",req.body.hour_started));
+
+           console.log("date started:  "+req.body.date_started)
            let date3=new Date(""+date1+"");
-           let  date2= req.body.date_finished;
+           let  date2= ((req.body.date_finished).concat("T",req.body.hour_finished));
+           console.log("date finished:  "+req.body.date_finished)
            let date4=new Date(""+date2+"");
            let d= Date.now()-3600000;// booking registering timestamp
            //let date= new Date(d);//  converted to date type
@@ -129,7 +133,8 @@ exports.postbookingcontroller=async function(req,res,next){
                    { let d1=DateTime.fromISO(req.body.date_started).toISODate();
                    let d2=DateTime.fromISO(req.body.date_finished).toISODate();
                    let  workingdiff = moment(''+d1+'', 'YYYY-MM-DD').businessDiff(moment(''+d2+'','YYYY-MM-DD'));
-                   if(workingdiff>results.book_found.maxBookingDays){res.render('book failed',{title:"Booking date interval exceeds max",role:req.userData.role});}
+                   let workdifftoHours=workingdiff * 12 + date4.getHours()-date3.getHours()+(date4.getMinutes()-date3.getMinutes())/60;
+                   if(workdifftoHours>results.book_found.maxBookingDays){res.render('book failed',{title:"Booking date interval exceeds max",role:req.userData.role});}
                    else {
                        if(date4.getDay()==0||date4.getDay()==6||date3.getDay()==0||date3.getDay()==6){
                            // res.redirect('/catalog/bookings');
@@ -228,7 +233,7 @@ exports.deleteresourcepostcontroller=function (req,res,next){
         if (err){
             return next(err);
         }
-        else {res.send("resource deleted"+ book_found)}
+        else {res.render('book failed',{title:'Resource successfully deleted'})}
     });
      //gets booking ids where specific  resource used and the ids of users made each book
      booking.find({resourceID:mongoose.Types.ObjectId(req.params.id)},'_id userID')

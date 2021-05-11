@@ -13,21 +13,41 @@ block content
     ul
         table(style='width:100%')
             tr
-                th ID
                 th Name
                 th Email
                 th Phone
                 th Role
+                if (User_id=="60874aac89fdca5120661ad2" )
+                  th Assign Admin
+                  th Assign User
             tr
                 each useritem in UserItem
                     tr
-                        td #{useritem._id}
                             td= useritem.Uname
                                 li
                                 a(href="/catalog/billing/" + useritem.url) Billing Account
                             td #{useritem.email}
                             td #{useritem.phone}
                             td #{useritem.role}
+                            if (User_id=="60874aac89fdca5120661ad2" )
+                              td
+                                form(method='POST'  action='/catalog/assignRole')
+                                  div.form-row
+                                      div.form-group.col-md-1
+                                      label(for= 'rolelabel1')
+                                          input#rolelabel1.form-control(type='hidden'  name='role' value="admin")
+                                      label(for= 'idlabel1')
+                                          input#idlabel1.form-control(type='hidden'  name='userID' value=useritem._id)
+                                  button.btn.btn-primary(type='submit;',style='width:70px; height:30px; ') Admin
+                              td
+                                  form(method='POST'  action='/catalog/assignRole')
+                                      div.form-row
+                                          div.form-group.col-md-1
+                                          label(for= 'rolelabel')
+                                              input#rolelabel.form-control(type='hidden'  name='role' value="user")
+                                          label(for= 'idlabel')
+                                              input#idlabel.form-control(type='hidden'  name='userID' value=useritem._id)
+                                      button.btn.btn-primary(type='submit;',style='width:70px; height:30px; ') User
 
                 else
                     li There are no Users.

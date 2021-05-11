@@ -18,7 +18,7 @@ exports.getalluserscontroller= async function(req,res,next){
     finally {
         let total_pages= Math.ceil(number_of_users/records_per_page);
         console.log(total_pages);
-        res.render('Userlist',{UserItem:users,role:req.userData.role,pages:total_pages,pg:page})
+        res.render('Userlist',{UserItem:users,User_id:req.userData.id,role:req.userData.role,pages:total_pages,pg:page})
     }
 };
 
@@ -55,3 +55,18 @@ exports.getuserBilling=async function(req,res,next){
         res.redirect('/catalog');
     }
 };
+exports.assignRolecontroller=async function(req,res,next){
+    if (!(req.userData.id=="60874aac89fdca5120661ad2"||req.userData.id=="60993b24c636fd00157dd689")){
+        res.redirect('/catalog')
+    }
+    else{
+        try{
+           var User= await user.findOneAndUpdate({_id:req.body.userID},{role:req.body.role})
+        }
+        catch (error){
+            return next(error)}
+        }
+    res.redirect('/catalog/users')
+
+
+}

@@ -62,6 +62,7 @@ router.post('/bookings/:id/delete',auth_controller.auth,bookings_controller.book
 // users endpoint OK
 router.get('/users',auth_controller.auth,auth_controller.adminauth,users_controller.getalluserscontroller);
 router.get('/billing/:id',auth_controller.auth,users_controller.getuserBilling);
+router.post('/assignRole',auth_controller.auth,users_controller.assignRolecontroller);
 
 // Stats endpoints
 router.get('/statistics',auth_controller.auth,auth_controller.adminauth,statscontroller.displayStats)
