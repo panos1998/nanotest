@@ -102,7 +102,7 @@ exports.bookupdatepostcontroller= async function(req,res,next){
 //gets the books per resource only for admin
 exports.bookbyresourcecontroller=async function (req,res,next){
     let page=req.query.page;
-    let records_per_page=2;
+    let records_per_page=50;
     try{
         var bookings_count=await booking.find({resourceID:mongoose.Types.ObjectId(req.params.resourceID)}).count()
     }catch (error){
