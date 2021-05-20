@@ -9,11 +9,11 @@ exports.auth= async function (req,res,next){
     try{
         var token=req.headers.cookie.split("=")[1];
         //var token=  req.headers.authorization.split(" ")[1];
-        console.log("this is the header: "+ req.headers.authorization)
         console.log("this is the token : "+ token)
         const decoded=jwt.verify(token,process.env.SECRET)
         req.userData=decoded;
         console.log(decoded);
+        console.log(req.headers)
         console.log(req.query.page)
         next();
     }catch (error){
