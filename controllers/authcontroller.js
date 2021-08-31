@@ -2,7 +2,8 @@ var express =require('express');
 var user= require('../models/Users')
 var async= require('async');
 var {body,validationResult}= require('express-validator');
-const bcrypt=require('bcrypt');
+//const bcrypt=require('bcrypt');
+const bcrypt= require('bcryptjs')
 const jwt=require('jsonwebtoken')
 //Makes user authentication//
 exports.auth= async function (req,res,next){
@@ -51,28 +52,33 @@ exports.postregistercontroller=[
         if(! errors.isEmpty()){
             res.render('Registerpage',{title:"Register",errors:errors.array()});
         }
-        bcrypt.hash(req.body.password,10,(err,hash)=>{
+        bcrypt.genSalt(10,(err,salt)=>{
                 if(err){return next(err)}
                 else {
-                    var User=  new user({
-                        Uname: req.body.name,
-                        email: req.body.email,
-                        hashed_password : hash,
-                        phone: req.body.phone,
-                        role: "user"
-                    });
-                    user.exists({email:User.email},function (err,obj){
-                            if(obj){
-                                res.render('Registerpage',{title:"Register",errors:"User with this email already exists, please try another",msg:body.message})
-                            }
-                            else( User.save((err  ) =>{
-                                    if (err){return next(err);}
-                                    else{ console.log(User) ;
-                                        res.redirect('login')}
-                                })
-                            )
-                        }
-                    )
+                    bcrypt.hash(req.body.password,salt,function (err,hash){
+                        if(err){return next(err)}
+                        else{
+                            var User=  new user({
+                            Uname: req.body.name,
+                            email: req.body.email,
+                            hashed_password : hash,
+                            phone: req.body.phone,
+                            role: "user"
+                        });
+                            user.exists({email:User.email},function (err,obj){
+                                    if(obj){
+                                        res.render('Registerpage',{title:"Register",errors:"User with this email already exists, please try another",msg:body.message})
+                                    }
+                                    else( User.save((err  ) =>{
+                                            if (err){return next(err);}
+                                            else{ console.log(User) ;
+                                                res.redirect('login')}
+                                        })
+                                    )
+                                }
+                            )}
+                    })
+
                 }
             }
         )
