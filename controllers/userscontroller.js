@@ -60,6 +60,7 @@ exports.assignRolecontroller=async function(req,res,next){
         res.redirect('/catalog')
     }
     else{
+
         try{
            var User= await user.findOneAndUpdate({_id:req.body.userID},{role:req.body.role})
         }

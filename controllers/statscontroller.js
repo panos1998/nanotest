@@ -105,9 +105,14 @@ exports.displayStats= function (req,res,next){
     },function (error,result){
         if(error){return next(error);}
         else{
+            if (result.TotalBookings.length==0){
+                res.redirect('/catalog')
+            }
+            else{
             console.log(result.TotalUsers[0].Users)
             console.log(result.AverageTimePerResource)
             res.render('statsDash',{role:req.userData.role,result:JSON.parse(JSON.stringify(result))});
+            }
         }
     })
 
