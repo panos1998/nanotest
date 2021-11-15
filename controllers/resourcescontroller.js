@@ -28,7 +28,7 @@ exports.resourceslistcontroller= async function(req,res,next){
 };
 
 exports.resourcebyidcontroller= function(req,res,next){
-    resource.findById(req.params.id,'name status hourcost photoURL maxBookingDays ')
+    resource.findById(req.params.id,'name status description hourcost photoURL maxBookingDays ')
         .exec(function (err,resource_found){
             if (err){
                 return next(err);
