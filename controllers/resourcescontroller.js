@@ -49,7 +49,7 @@ exports.resourcecreatepostcontroller=[
     const errors=validationResult(req);
     var d=  new Date();
     console.log(req.body.costperhour);
-    var resour= new resource({name:req.body.name,status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking});
+    var resour= new resource({name:req.body.name,description:req.body.description, status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking});
     console.log(resour.hourcost);
     if(!errors.isEmpty()){
         res.render('addResourceform',{title:"Add a new Resource",resource:resour,errors:errors.array(),role:req.userData.role});
@@ -217,7 +217,7 @@ exports.updateresourcepostcontroller= [
             return;
         }
         else{
-                        resource.findOneAndUpdate({_id:req.params.id},{name:req.body.name,status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking,dateInterval:req.body.interval})
+                        resource.findOneAndUpdate({_id:req.params.id},{name:req.body.name,description:req.body.description, status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking,dateInterval:req.body.interval})
                             .exec(function (err,doc){
                             if (err) { return next(err);}
                             res.redirect('/catalog'+doc.url)})

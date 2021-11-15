@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 
 var ResourceSchema= new Schema({
     name: {type:String,required:true,maxlength:40},
+    description: {type:String},
     status: {type: String,enum:["Available","Maintenance"],default:"Available"},
     hourcost: {type:Number,required:true},
     photoURL: {type:String},
@@ -35,4 +36,9 @@ ResourceSchema
     .get(function (){
         return this.photoURL;
     });
+ResourceSchema
+    .virtual('desc')
+    .get(function (){
+        return this.description;
+    })
 module.exports = mongoose.model('Resources', ResourceSchema);

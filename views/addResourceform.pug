@@ -21,10 +21,13 @@ block content
             div.form-group.col-md-3
                 label(for='photoURL') #[strong Insert Photo link]:
                 input#photoURL.form-control(type='text',placeholder='Type link for photo' name='photoURL' value=(undefined===resource ? '' : resource.photoURL))
-        div.form-row
+        div.form-row.col-md-6
+            label(for='photoURL') #[strong Insert resource description]:
+                input#description.form-control(type='text',placeholder='Type description' name='description' value=(undefined === resource ? '' : resource.description))
             div.form-group.col-md-3
                 label(for='maxBooking') #[strong Maximum Booking time space]:
                 input#maxBooking.form-control(type='number' step='0.5',placeholder='Maximum space number' name='maxBooking' value=(undefined === resource ? '' : resource.maxBookingDays))
+            div.form-group.
         button.btn.btn-primary(type='submit') Submit
     if errors
         ul
