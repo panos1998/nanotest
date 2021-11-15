@@ -72,5 +72,5 @@ block content
                 input#Project_Title.form-control(type='text',placeholder='Type your project title' name='Project_Title' value=(undefined === resource ? '' : resource.Project_title))
             div.form-group.col-md-6
                 label(for='Project_Desc') #[strong Project description]:
-                input#Project_Desc.form-control(type='textarea'  ,placeholder='Type your project description' name='Project_Desc' value=(undefined === resource ? '' : resource.Project_desc))
+                textarea#Project_Desc.form-control(type='textarea'  ,placeholder='Type your project description' name='Project_Desc' value=(undefined === resource ? '' : resource.Project_desc))
         button.btn.btn-primary(type='submit') Book
