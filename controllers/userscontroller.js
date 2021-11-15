@@ -56,7 +56,7 @@ exports.getuserBilling=async function(req,res,next){
     }
 };
 exports.assignRolecontroller=async function(req,res,next){
-    if (!(req.userData.id=="60874aac89fdca5120661ad2"||req.userData.id=="60993b24c636fd00157dd689")){
+    if (!(req.userData.id=="6155cf758d3fbe0400bd7703"||req.userData.id=="60993b24c636fd00157dd689")){
         res.redirect('/catalog')
     }
     else{
