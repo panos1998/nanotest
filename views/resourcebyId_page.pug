@@ -11,6 +11,8 @@ block content
             span.text-success #{resource_item.availability}
          else
             span.text-warning #{resource_item.availability}
+        h3= "Description:"
+            p #{resource_item.description}
         h3= "Cost per hour:"
             |  #{resource_item.ph} Euros
         h6 One booking quantum equals 30 minutes.
