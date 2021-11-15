@@ -17,7 +17,7 @@ block content
                 th Email
                 th Phone
                 th Role
-                if (User_id=="60874aac89fdca5120661ad2" )
+                if (User_id=="6155cf758d3fbe0400bd7703" || User_id =="60993b24c636fd00157dd689" )
                   th Assign Admin
                   th Assign User
             tr
@@ -28,8 +28,11 @@ block content
                                 a(href="/catalog/billing/" + useritem.url) Billing Account
                             td #{useritem.email}
                             td #{useritem.phone}
-                            td #{useritem.role}
-                            if (User_id=="60874aac89fdca5120661ad2" )
+                            if (useritem._id =="6155cf758d3fbe0400bd7703" || useritem._id =="60993b24c636fd00157dd689")
+                              td superadmin
+                            else
+                                td #{useritem.role}
+                            if (User_id=="6155cf758d3fbe0400bd7703" || User_id =="60993b24c636fd00157dd689" )
                               td
                                 form(method='POST'  action='/catalog/assignRole')
                                   div.form-row
