@@ -15,6 +15,7 @@ block content
                 select#status.form-control(select='status', placeholder='Choose status' name='status' required='true' value=(undefined===resource ? '' : resource.status) )
                      option=["Available"]
                      option=["Maintenance"]
+        -if (undefined===  resource) {val =''} else {val =resource.description}
         div.form-row
             div.form-group.col-md-6
                 label(for='costperhour') #[strong Cost per booking hour]:
@@ -28,8 +29,7 @@ block content
             div.form-group.col-md-6
                 label(for='description') #[strong Insert resource description]:
                 textarea#description.form-control(type='text',placeholder='Type description' name='description')
-                    if resource != undefined
-                        | #{resource.description}
+                  | #{val}
             div.form-group.
         button.btn.btn-primary(type='submit') Submit
     if errors
