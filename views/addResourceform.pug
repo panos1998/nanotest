@@ -28,7 +28,7 @@ block content
             div.form-group.col-md-6
                 -value = (undefined === resource ? '' : resource.description)
                 label(for='description') #[strong Insert resource description]:
-                textarea#description.form-control(type='text',placeholder='Type description' name='description') #{value}
+                textarea#description.form-control(type='text',placeholder='Type description' name='description')#{value}
             div.form-group.
         button.btn.btn-primary(type='submit') Submit
     if errors
