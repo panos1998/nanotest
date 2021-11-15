@@ -1,6 +1,6 @@
 extends layout
 block content
-  - value =(undefined === resource ? '' : resource.description)
+
     h3= title
     li
      h5=message
@@ -26,6 +26,7 @@ block content
                 label(for='maxBooking') #[strong Maximum Booking time space]:
                 input#maxBooking.form-control(type='number' step='0.5',placeholder='Maximum space number' name='maxBooking' value=(undefined === resource ? '' : resource.maxBookingDays))
             div.form-group.col-md-6
+                -value = (undefined === resource ? '' : resource.description)
                 label(for='description') #[strong Insert resource description]:
                 textarea#description.form-control(type='text',placeholder='Type description' name='description') #{value}
             div.form-group.
