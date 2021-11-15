@@ -18,10 +18,11 @@ block content
             div.form-group.col-md-6
                 label(for='costperhour') #[strong Cost per booking hour]:
                 input#costperhour.form-control(type='number' step='0.1',placeholder='Fill cost per booking Quantum'  name='costperhour' required='true' value=(undefined===resource ? '' : resource.hourcost))
-            div.form-group.col-md-3
+            div.form-group.col-md-6
                 label(for='photoURL') #[strong Insert Photo link]:
                 input#photoURL.form-control(type='text',placeholder='Type link for photo' name='photoURL' value=(undefined===resource ? '' : resource.photoURL))
         div.form-row.col-md-6
+            div.form-group.col-md-6
             label(for='photoURL') #[strong Insert resource description]:
                 input#description.form-control(type='text',placeholder='Type description' name='description' value=(undefined === resource ? '' : resource.description))
             div.form-group.col-md-6
