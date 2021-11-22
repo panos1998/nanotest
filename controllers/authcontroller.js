@@ -125,7 +125,9 @@ exports.postlogindatacontroller= function(req,res,next){
                             console.log(token);
 
                         }
-
+                        else{
+                            res.render('Loginpage', {title: "Login", errors: "Failed to authenticate user"})
+                        }
                         //console.log(token);
 
                     });
