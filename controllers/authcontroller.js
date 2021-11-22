@@ -97,10 +97,12 @@ exports.postlogindatacontroller= function(req,res,next){
         .exec()
         .then(User=>{
                 if(User.length<1){
+                    console.log("den iparxi o xristis")
                     res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
                 }
                 bcrypt.compare(req.body.password,User[0].hashed_password,(err,result)=>{
-                    if (err){res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})}
+                    if (err){ console.log("lathos stin sigkrisi")
+                        res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})}
                     if (result){
                         const token=  jwt.sign({
                             id:User[0]._id,
@@ -123,14 +125,14 @@ exports.postlogindatacontroller= function(req,res,next){
 
                         //console.log(token);
                     else{
+                        console.log("kapoio lathos")
                         res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
                     }
                 });
             }
         )
         .catch(err=>{
-            res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
-            //return next(err)
+            return next(err)
         })
     // res.send("login credits posted");
 };
