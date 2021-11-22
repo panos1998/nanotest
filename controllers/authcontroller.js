@@ -124,10 +124,7 @@ exports.postlogindatacontroller= function(req,res,next){
                         }
 
                         //console.log(token);
-                    else{
-                        console.log("kapoio lathos")
-                        res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
-                    }
+
                 });
             }
         )
