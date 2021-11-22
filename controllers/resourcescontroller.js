@@ -197,7 +197,7 @@ exports.postbookingcontroller=async function(req,res,next){
         }
 
 exports.updateresourcegetcontroller= function(req,res,next){
-    resource.findById(req.params.id,'name status hourcost photoURL maxBookingDays dateInterval')
+    resource.findById(req.params.id,'name status description  hourcost photoURL maxBookingDays dateInterval')
         .exec(function (err,resource_found){
             if (err){
                 return next(err);
