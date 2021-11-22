@@ -100,32 +100,36 @@ exports.postlogindatacontroller= function(req,res,next){
                     console.log("den iparxi o xristis")
                     res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
                 }
-                bcrypt.compare(req.body.password,User[0].hashed_password,(err,result)=>{
-                    if (err){ console.log("lathos stin sigkrisi")
-                        res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})}
-                    if (result){
-                        const token=  jwt.sign({
-                            id:User[0]._id,
-                            role:User[0].role
-                        },process.env.SECRET,{
-                            expiresIn: "2h"
-                        })
+                else {
+                    bcrypt.compare(req.body.password, User[0].hashed_password, (err, result) => {
+                        if (err) {
+                            console.log("lathos stin sigkrisi")
+                            res.render('Loginpage', {title: "Login", errors: "Failed to authenticate user"})
+                        }
+                        if (result) {
+                            const token = jwt.sign({
+                                id: User[0]._id,
+                                role: User[0].role
+                            }, process.env.SECRET, {
+                                expiresIn: "2h"
+                            })
 
 
-                        res.cookie('JWT',token,{
-                            maxAge:7_200_000,
-                            httpOnly:true,
-                            secure:true,
-                            sameSite:"strict"
+                            res.cookie('JWT', token, {
+                                maxAge: 7_200_000,
+                                httpOnly: true,
+                                secure: true,
+                                sameSite: "strict"
 
-                        }).redirect('/catalog');
-                        console.log(token);
+                            }).redirect('/catalog');
+                            console.log(token);
 
                         }
 
                         //console.log(token);
 
-                });
+                    });
+                }
             }
         )
         .catch(err=>{
