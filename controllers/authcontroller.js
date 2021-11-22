@@ -116,9 +116,8 @@ exports.postlogindatacontroller= function(req,res,next){
                             secure:true,
                             sameSite:"strict"
 
-                        });
+                        }).redirect('/catalog');
                         console.log(token);
-                        res.redirect('/catalog')
 
                         }
 
@@ -131,7 +130,7 @@ exports.postlogindatacontroller= function(req,res,next){
         )
         .catch(err=>{
             return next(err)
-        });
+        })
     // res.send("login credits posted");
 };
 
