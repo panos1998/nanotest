@@ -129,7 +129,7 @@ exports.postlogindatacontroller= function(req,res,next){
             }
         )
         .catch(err=>{
-            res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"}
+            res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
             //return next(err)
         })
     // res.send("login credits posted");
