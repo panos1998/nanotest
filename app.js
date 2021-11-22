@@ -72,12 +72,12 @@ app.use((req,res,next)=>{
 });
 app.use('/', indexRouter);
 app.use('/catalog',catalogRouter);
-<<<<<<< HEAD
+
 app.use(function (req,res,next){
   console.log(req.ip)
 })
-=======
->>>>>>> main
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

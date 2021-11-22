@@ -108,25 +108,21 @@ exports.postlogindatacontroller= function(req,res,next){
                         },process.env.SECRET,{
                             expiresIn: "2h"
                         })
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
+
                         res.cookie('JWT',token,{
                             maxAge:7_200_000,
                             httpOnly:true,
                             secure:true,
                             sameSite:"strict"
-<<<<<<< Updated upstream
+
                         });
                         console.log(token);
-=======
-                        })
+                        res.redirect('/catalog')
+
+                        }
 
                         //console.log(token);
->>>>>>> Stashed changes
-                        res.redirect('/catalog');
-                    }
                     else{
                         res.render('Loginpage',{title:"Login",errors: "Failed to authenticate user"})
                     }
@@ -135,7 +131,7 @@ exports.postlogindatacontroller= function(req,res,next){
         )
         .catch(err=>{
             return next(err)
-        })
+        });
     // res.send("login credits posted");
 };
 
