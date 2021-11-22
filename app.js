@@ -66,14 +66,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req,res,next)=>{
+  console.log(req.headers['x-forwarded-for']   );
   res.header("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,Accept,Authorization");
   next();
 });
 app.use('/', indexRouter);
 app.use('/catalog',catalogRouter);
+<<<<<<< HEAD
 app.use(function (req,res,next){
   console.log(req.ip)
 })
+=======
+>>>>>>> main
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

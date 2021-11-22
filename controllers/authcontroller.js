@@ -8,19 +8,24 @@ const jwt=require('jsonwebtoken')
 //Makes user authentication//
 exports.auth= async function (req,res,next){
     try{
-        var token=req.headers.cookie.split("=")[1];
-        //var token=  req.headers.authorization.split(" ")[1];
-        console.log("this is the token : "+ token)
-        const decoded=jwt.verify(token,process.env.SECRET)
+        console.log('kefalides  '+req.headers.cookie)
+        var kefalidesarray = req.headers.cookie.split(';')
+        var oreo_biscuit =''
+        kefalidesarray.forEach(biscuit =>{
+            if (biscuit.startsWith(" JWT") || biscuit.startsWith("JWT")){
+                oreo_biscuit = biscuit.split('=')[1]
+                console.log(oreo_biscuit)
+            }
+        })
+        const decoded=jwt.verify(oreo_biscuit,process.env.SECRET)
         req.userData=decoded;
-        console.log(decoded);
-        console.log(req.headers)
-        console.log(req.query.page)
         next();
     }catch (error){
         console.log("not auth");
-        console.log("this is the header: "+ req.headers.authorization)
-        console.log("this is the token : "+ token)
+        console.log(kefalidesarray)
+        console.log(oreo_biscuit)
+        //console.log("this is the header: "+ req.headers.cookie)
+        //console.log("this is the token : "+ JWTcookie)
         res.redirect('/login')
 
     }
@@ -103,13 +108,23 @@ exports.postlogindatacontroller= function(req,res,next){
                         },process.env.SECRET,{
                             expiresIn: "2h"
                         })
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
                         res.cookie('JWT',token,{
                             maxAge:7_200_000,
                             httpOnly:true,
                             secure:true,
                             sameSite:"strict"
+<<<<<<< Updated upstream
                         });
                         console.log(token);
+=======
+                        })
+
+                        //console.log(token);
+>>>>>>> Stashed changes
                         res.redirect('/catalog');
                     }
                     else{
