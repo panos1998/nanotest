@@ -24,8 +24,8 @@ exports.getallbookscontroller= async function(req,res,next){
         return next(err);}
 
     finally {
-        console.log(query);
-        console.log(number_of_bookings)
+        //console.log(query);
+        //console.log(number_of_bookings)
         let total_pages=Math.ceil(number_of_bookings/records_per_page)
         res.render('all bookings',{book_list:bookings_found,role:req.userData.role,number:pg,pages:total_pages/*nonceHash:res.locals.cspNonce*/});}
 };
@@ -97,7 +97,7 @@ exports.bookupdatepostcontroller= async function(req,res,next){
         return next(err);
     }
     res.redirect('/catalog/bookings/'+book_found._id+'/get');
-    console.log("booking credits updated");
+    //console.log("booking credits updated");
 };
 //gets the books per resource only for admin
 exports.bookbyresourcecontroller=async function (req,res,next){
@@ -138,7 +138,7 @@ exports.bookdeletepostcontroller=function (req,res,next){
     async.waterfall([function (callback){
         booking.findOneAndDelete(query,{projection:{resourceID:1}},function (err,booking_found){
             if (err){callback(err,null); return;}
-            console.log(booking_found);
+            //console.log(booking_found);
             callback(null,booking_found)
 
         });
@@ -179,7 +179,7 @@ exports.getbookings= async function  (req,res,next){
         return next(error);
     }
     finally {
-        console.log(bookdata)
+        //console.log(bookdata)
         res.json(JSON.parse(JSON.stringify(bookdata)))
     }
 };

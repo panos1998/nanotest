@@ -17,7 +17,7 @@ exports.getalluserscontroller= async function(req,res,next){
     }
     finally {
         let total_pages= Math.ceil(number_of_users/records_per_page);
-        console.log(total_pages);
+        //console.log(total_pages);
         res.render('Userlist',{UserItem:users,User_id:req.userData.id,role:req.userData.role,pages:total_pages,pg:page})
     }
 };
@@ -47,7 +47,7 @@ exports.getuserBilling=async function(req,res,next){
         } catch (error) {
             return next(error);
         } finally {
-            console.log(obj)
+           // console.log(obj)
             res.render('BookAccount', {object: obj, role: req.userData.role})
         }
     }

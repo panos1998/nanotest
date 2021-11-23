@@ -48,9 +48,9 @@ exports.resourcecreatepostcontroller=[
     function(req,res,next){
     const errors=validationResult(req);
     var d=  new Date();
-    console.log(req.body.costperhour);
+    //console.log(req.body.costperhour);
     var resour= new resource({name:req.body.name,description:req.body.description, status:req.body.status,hourcost:req.body.costperhour,photoURL:req.body.photoURL,timestamp:d.getTime(),maxBookingDays:req.body.maxBooking});
-    console.log(resour.hourcost);
+    //console.log(resour.hourcost);
     if(!errors.isEmpty()){
         res.render('addResourceform',{title:"Add a new Resource",resource:resour,errors:errors.array(),role:req.userData.role});
         return;
@@ -97,10 +97,10 @@ exports.postbookingcontroller=async function(req,res,next){
            //let date1= (req.body.date_started);
            let date1= ((req.body.date_started).concat("T",req.body.hour_started));
 
-           console.log("date started:  "+req.body.date_started)
+          // console.log("date started:  "+req.body.date_started)
            let date3=new Date(""+date1+"");
            let  date2= ((req.body.date_finished).concat("T",req.body.hour_finished));
-           console.log("date finished:  "+req.body.date_finished)
+           //console.log("date finished:  "+req.body.date_finished)
            let date4=new Date(""+date2+"");
            let d= Date.now()-3600000;// booking registering timestamp
            //let date= new Date(d);//  converted to date type
@@ -142,8 +142,8 @@ exports.postbookingcontroller=async function(req,res,next){
                            ;}
                        else{
                            let workingdiffToHours = workingdiff * 12 + date4.getHours()-date3.getHours()+(date4.getMinutes()-date3.getMinutes())/60;//(date4.getHours()-0) - (date3.getHours()-24);
-                           console.log(workingdiffToHours);
-                           console.log(workingdiff);
+                           //console.log(workingdiffToHours);
+                           //console.log(workingdiff);
                            let totalcost = workingdiffToHours*results.book_found.ph;//results.resource_found.cost_per_day
                            var book = new booking({
                                userID: mongoose.Types.ObjectId(req.userData.id),
@@ -274,7 +274,7 @@ exports.getresources=async function(req,res,next){
         return next(error)
     }
     finally {
-        console.log(resourcedata)
+        //console.log(resourcedata)
         res.json(JSON.parse(JSON.stringify(resourcedata)))
     }
 };

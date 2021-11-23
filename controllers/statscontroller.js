@@ -109,8 +109,8 @@ exports.displayStats= function (req,res,next){
                 res.redirect('/catalog')
             }
             else{
-            console.log(result.TotalUsers[0].Users)
-            console.log(result.AverageTimePerResource)
+            //console.log(result.TotalUsers[0].Users)
+            //console.log(result.AverageTimePerResource)
             res.render('statsDash',{role:req.userData.role,result:JSON.parse(JSON.stringify(result))});
             }
         }
