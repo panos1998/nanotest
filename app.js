@@ -26,6 +26,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.use(compression());
 //app.use((req, res, next) => {
@@ -42,7 +43,7 @@ app.use(helmet({
       "style-src": ["'self'","'report-sample'","https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css","'unsafe-inline'","https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@5.6.0/main.min.css"],
       "object-src":["'none'"],
       "font-src":["'self'", "data:"],
-      "img-src":["'self'","https://i.ibb.co/ data:"],
+      "img-src":["'self' data:","https://i.ibb.co/ data:"],
       "report-uri":["https://a005ed3c3b6c22373aa7da7fa61d83a6.report-uri.com/r/d/csp/reportOnly"],
       "form-action":["'self'"],
       "base-uri":["'self'"],
@@ -64,7 +65,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use((req,res,next)=>{
   console.log(req.headers['x-forwarded-for']   );
   res.header("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,Accept,Authorization");
