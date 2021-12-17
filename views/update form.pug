@@ -24,11 +24,8 @@ block content
                     label(for='Project_Title') #[strong Project Title]:
                     input#Project_Title.form-control(type='text',placeholder='Type your project title' name='Project_Title' value=(undefined === bookia ? '' : bookia.Project_title))
                 div.form-group.col-md-6
-<<<<<<< HEAD
                     - if (undefined === bookia){val = ''} else {val =bookia.Project_desc}
-=======
                     - if (undefined ===bookia){val =''} else {val= bookia.Project_desc}
->>>>>>> main
                     label(for='Project_Desc') #[strong Project description]:
                     textarea#Project_Desc.form-control(type='textarea'  ,placeholder='Type your project description' name='Project_Desc') #{val}
             button.btn.btn-primary(type='submit') Update
