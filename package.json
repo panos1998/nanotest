@@ -22,7 +22,7 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "luxon": "^1.28.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "moment-business-days": "^1.2.0",
     "mongo": "^0.1.0",
     "mongoose": "^5.13.13",
